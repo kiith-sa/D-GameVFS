@@ -9,7 +9,10 @@ the Getting Started tutorial in D:GameVFS README.html.
 $(P
 In this API documentation, each D:GameVFS module is documented separately. 
 However, to use D:GameVFS, you don't need to import these modules. All you need 
-to import is the $(I dgamevfs._) module, which will import all needed modules.
+to import is the $(D dgamevfs._) module, which will import all needed modules.
+Note that D:GameVFS uses the $(D Flag) template instead of booleans for more 
+descriptive parameters (such as $(D Yes.writable) instead of $(D true)). 
+You need to import $(D std.typecons) to use $(D Flag).
 )
 
 Macros:

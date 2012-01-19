@@ -452,7 +452,10 @@ directory.</p>
 </div>
 <div class="section" id="explanation-of-the-code">
 <h2>Explanation of the code</h2>
-<p>We start by importing <em>dgamevfs._</em> which imports all needed D:GameVFS modules.</p>
+<p>We start by importing <em>dgamevfs._</em> which imports all needed D:GameVFS modules.
+D:GameVFS uses the <em>Flag</em> template instead of booleans for more descriptive
+parameters (such as <tt class="docutils literal">Yes.writable</tt> instead of <tt class="docutils literal">true</tt>). You need to import
+<em>std.typecons</em> to use <em>Flag</em>.</p>
 <p>We create two <em>FSDirs</em> - physical file system directory objects, which will be
 called <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> in the VFS and will represent the <tt class="docutils literal">main_data</tt> and
 <tt class="docutils literal">user_data</tt> directories which we've created in our project directory.
@@ -563,7 +566,7 @@ in the <a class="reference external" href="http://www.d-programming-language.org
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2012-01-19 21:53 UTC.
+Generated on: 2012-01-19 22:54 UTC.
 
 </div>
 </body>

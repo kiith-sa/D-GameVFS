@@ -149,6 +149,9 @@ Explanation of the code
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 We start by importing *dgamevfs._* which imports all needed D:GameVFS modules.
+D:GameVFS uses the *Flag* template instead of booleans for more descriptive 
+parameters (such as ``Yes.writable`` instead of ``true``). You need to import 
+*std.typecons* to use *Flag*.
 
 We create two *FSDirs* - physical file system directory objects, which will be 
 called ``main`` and ``user`` in the VFS and will represent the ``main_data`` and

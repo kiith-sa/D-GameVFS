@@ -43,7 +43,10 @@ the Getting Started tutorial in D:GameVFS README.html.
 
 <p>In this API documentation, each D:GameVFS module is documented separately. 
 However, to use D:GameVFS, you don't need to import these modules. All you need 
-to import is the <i>dgamevfs._</i> module, which will import all needed modules.
+to import is the <span class="d_inlinecode">dgamevfs._</span> module, which will import all needed modules.
+Note that D:GameVFS uses the <span class="d_inlinecode">Flag</span> template instead of booleans for more 
+descriptive parameters (such as <span class="d_inlinecode">Yes.writable</span> instead of <span class="d_inlinecode">true</span>). 
+You need to import <span class="d_inlinecode">std.typecons</span> to use <span class="d_inlinecode">Flag</span>.
 </p>
 
 
