@@ -1,0 +1,17 @@
+Ddoc
+
+$(P
+This is the complete API documentation for D:GameVFS. It describes all classes
+and methods provided by the library. For a basic introduction to D:GameVFS, seek
+the Getting Started tutorial in D:GameVFS README.html. 
+)
+
+$(P
+In this API documentation, each D:GameVFS module is documented separately. 
+However, to use D:GameVFS, you don't need to import these modules. All you need 
+to import is the $(I dgamevfs._) module, which will import all needed modules.
+)
+
+Macros:
+    TITLE=$(PROJECT_NAME) $(PROJECT_VERSION) API documentation
+
