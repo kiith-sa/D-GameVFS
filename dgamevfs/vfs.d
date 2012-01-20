@@ -259,7 +259,7 @@ struct VFSRange(T) if(is(T == VFSDir) || is(T == VFSFile))
 {
     public:
         ///Function used to _compare items alphabetically.
-        static bool compare(T a, T b){return 0 < icmp(a.path, b.path);}
+        static bool compare(T a, T b){return 0 < cmp(a.path, b.path);}
 
         ///Type used to store the items.
         alias RedBlackTree!(T, compare, false) Items;
