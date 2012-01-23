@@ -56,7 +56,7 @@ Install the DMD compiler
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Digital Mars D compiler, or DMD, is the most commonly used D compiler. You can
-find its newest version `here <http://www.digitalmars.com/d/download.html>`_. 
+find its newest version `here <http://dlang.org/download.html>`_. 
 Download the version of DMD for your operating system and install it.
 
 .. note:: 
