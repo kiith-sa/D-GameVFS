@@ -51,7 +51,7 @@ import dgamevfs.util;
  * --------------------
  * VFSDir data, user_data; //initialized somewhere before
  * 
- * StackDir stack("stack");
+ * auto stack = new StackDir("stack");
  * stack.mount(data);
  * stack.mount(user_data);
  *

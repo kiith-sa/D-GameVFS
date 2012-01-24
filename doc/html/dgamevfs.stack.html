@@ -67,7 +67,7 @@ We have a directory called <i>data</i> with the following contents:
  the following code will work as specified in the comments:
 <pre class="d_code"> VFSDir data, user_data; <span class="d_comment">//initialized somewhere before
 </span>
- <span class="d_psymbol">StackDir</span> stack(<span class="d_string">"stack"</span>);
+ <span class="d_keyword">auto</span> stack = <span class="d_keyword">new</span> <span class="d_psymbol">StackDir</span>(<span class="d_string">"stack"</span>);
  stack.mount(data);
  stack.mount(user_data);
 
