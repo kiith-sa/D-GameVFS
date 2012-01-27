@@ -15,13 +15,13 @@ import dgamevfs.exceptions;
 
 
 //Is a file/directory name valid (i.e. no directory or package separators)?
-bool noSeparators(string name) pure
+bool noSeparators(string name)
 {
     return !name.canFind("/") && !name.canFind("::");
 }
 
 //Are there no package separators in the path?
-bool noPackageSeparators(string path)  pure
+bool noPackageSeparators(string path)
 {
     return !path.canFind("::");
 }
