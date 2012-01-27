@@ -44,7 +44,7 @@ string cleanFSPath(string path) pure
  *
  * Returns: Package the path starts with, if any. null otherwise.
  */
-string expectPackage(string path, out string rest) pure
+string expectPackage(string path, out string rest)
 {
     auto parts = path.findSplit("::");
     //No package separator.
