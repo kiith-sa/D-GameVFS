@@ -198,6 +198,14 @@ class MemoryDir : VFSDir
             exists_ = Yes.exists;
         }
 
+        override VFSDir copyWithoutParent()
+        {
+            auto result = new MemoryDir(name, writable_, exists_);
+            result.subdirs_ = subdirs_;
+            result.files_   = files_;
+            return result;
+        }
+
     private:
         /*
          * Construct a MemoryDir with a parent.

@@ -502,7 +502,7 @@ bool testStackDirMount()
     auto child  = new MemoryDir("child");
     auto main   = new StackDir("main");
     parent.mount(child);
-    if(!fail({main.mount(child);}))
+    if(fail({main.mount(child);}))
     {
         writeln("FAILED mounting a dir with parent");
         return false;

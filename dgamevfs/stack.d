@@ -264,13 +264,15 @@ class StackDir : VFSDir
          * Files and directories of a directory mounted later will override
          * those of a directory mounted earlier.
          *
+         * If dir has a parent in the VFS, a parent-less copy will be created and 
+         * mounted. (This has no effect whatsoever on the underlying filesystem -
+         * it just removes the need for directories to have multiple parents).
+         *
          * Params:  dir = Directory to _mount.
          *
          * Throws:  $(D VFSMountException) if a directory with the same name is
-         *          already mounted, if dir has a parent (mounted elsewhere or a
-         *          subdirectory of another $(D VFSDir)) or if dir has this 
-         *          directory as its child or a child of any of its 
-         *          subdirectories (circular mounting).
+         *          already mounted, or if dir has this directory as its child 
+         *          or a child of any of its subdirectories (circular mounting).
          */ 
         void mount(VFSDir dir)
         {
@@ -278,10 +280,10 @@ class StackDir : VFSDir
                     mountError("Could not mount directory ", dir.path, " to stacked "
                                 "directory ", this.path, " as there is already a "
                                 "mounted directory  with the same name"));
-            enforce(dir.parent is null, 
-                    mountError("Could not mount directory ", dir.path,
-                                " to stacked directory ", this.path, 
-                                " as it is already mounted elsewhere."));
+            if(dir.parent !is null)
+            {
+                dir = getCopyWithoutParent(dir);
+            }
 
             VFSDir parent = this.parent;
             while(parent !is null)
@@ -319,13 +321,23 @@ class StackDir : VFSDir
             assert(false, "create_() called on a non-writable StackDir");
         }
 
+        override VFSDir copyWithoutParent()
+        {
+            auto result = new StackDir(name);
+            foreach(dir; stack_)
+            {
+                result.mount(getCopyWithoutParent(dir));
+            }
+            return result;
+        }
+
     private:
         /**
          * Construct a stack directory as a subdirectory of parent.
          *
-         * Params:  parent         = Parent directory.
+         * Params:  parent       = Parent directory.
          *          pathInParent = Path of the subdir in all directories of parent's stack.
-         *          stack          = Directory stack of the subdirectory.
+         *          stack        = Directory stack of the subdirectory.
          */
         this(StackDir parent, string pathInParent, VFSDir[] stack)
         {

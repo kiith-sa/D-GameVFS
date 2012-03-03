@@ -176,6 +176,11 @@ class FSDir : VFSDir
             }
         }
 
+        override VFSDir copyWithoutParent()
+        {
+            return new FSDir(name, physicalPath_, writable_);
+        }
+
     private:
         /*
          * Construct an FSDir.

@@ -223,6 +223,12 @@ abstract class VFSDir
         ///Implementation of $(D create()). Caller contract guarantees that the directory is writable.
         void create_();
 
+        ///Return a copy of this VFSDir without a parent. Used for mounting.
+        VFSDir copyWithoutParent();
+
+        ///Access for derived classes to call copyWithoutParent() of other instances.
+        final VFSDir getCopyWithoutParent(VFSDir dir){return dir.copyWithoutParent();};
+
     package:
         //Get the parent directory.
         final @property VFSDir parent() {return parent_;}
