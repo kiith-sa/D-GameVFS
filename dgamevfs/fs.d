@@ -56,7 +56,10 @@ class FSDir : VFSDir
 
         override @property bool writable() const {return writable_;}
 
-        override @property bool exists() const {return .exists(physicalPath_);}
+        override @property bool exists() const @trusted
+        {
+            return .exists(physicalPath_);
+        }
 
         override VFSFile file(string path)
         {
@@ -247,7 +250,7 @@ class FSFile : VFSFile
 
         override @property bool exists() const {return .exists(physicalPath_);}
             
-        override @property bool open() const {return mode_ != Mode.Closed;}
+        override @property bool open() const pure @safe nothrow {return mode_ != Mode.Closed;}
 
     protected:    
         override void openRead()
@@ -263,7 +266,7 @@ class FSFile : VFSFile
             mode_ = Mode.Read;
         }
 
-        override void openWrite(Flag!"append" append)
+        override void openWrite(Flag!"append" append) @trusted
         {
             assert(mode_ == Mode.Closed, "Trying to open a file that is already open" ~ path);
             assert(writable, "Trying open a non-writable file for writing: " ~ path);
@@ -335,7 +338,7 @@ class FSFile : VFSFile
             }
         }
 
-        override void close()
+        override void close() @trusted
         {
             assert(mode_ != Mode.Closed, "Trying to close an unopened file: " ~ path);
 

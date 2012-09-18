@@ -125,7 +125,7 @@ class StackDir : VFSDir
             return false;
         }
 
-        override @property bool exists() const
+        override @property bool exists() const @trusted
         {
             foreach(pkg; stack_) if(pkg.exists)
             {
@@ -295,7 +295,7 @@ class StackDir : VFSDir
         }
 
     protected:
-        override string composePath(const VFSDir child) const
+        override string composePath(const VFSDir child) const @safe
         {
             //child is in stack_ - override its path:
             foreach(pkg; stack_) if (pkg is child)
@@ -385,7 +385,7 @@ class StackFile : VFSFile
             return false;
         }
 
-        override @property bool open() const {return openFile_ !is null;}
+        override @property bool open() const pure @safe nothrow {return openFile_ !is null;}
 
     protected:
         override void openRead()
@@ -402,7 +402,7 @@ class StackFile : VFSFile
             assert(false, "Trying to open a non-existent file for reading: " ~ path);
         }
 
-        override void openWrite(Flag!"append" append)
+        override void openWrite(Flag!"append" append) @trusted
         {
             assert(openFile_ is null, "Trying to open a file that is already open: " ~ path);
             assert(writable, "Trying open a non-writable file for writing: " ~ path);
@@ -437,7 +437,7 @@ class StackFile : VFSFile
             seekProxy(openFile_, offset, origin);
         }
 
-        override void close()
+        override void close() @trusted
         {
             assert(openFile_ !is null, "Trying to close an unopened file: " ~ path);
             closeProxy(openFile_);
