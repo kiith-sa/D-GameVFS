@@ -64,7 +64,7 @@ class MemoryDir : VFSDir
             foreach(dir; subdirs_) {dir.writable = rhs;}
         }
         
-        override @property bool exists() const @trusted {return exists_;}
+        override @property bool exists() const {return exists_;}
 
         override VFSFile file(string path)
         {
@@ -192,6 +192,11 @@ class MemoryDir : VFSDir
             return dirsRange(dirs);
         }
 
+        override void remove()
+        {
+            exists_ = No.exists;
+        }
+
     protected:
         override void create_()
         {
@@ -255,12 +260,9 @@ class MemoryFile : VFSFile
             return buffer_.length;
         }
 
-        override @property bool exists() const
-        {
-            return buffer_ !is null;
-        }
+        override @property bool exists() const {return buffer_ !is null;}
             
-        override @property bool open() const pure @safe nothrow
+        override @property bool open() const
         {
             return mode_ != Mode.Closed;
         }
@@ -278,7 +280,7 @@ class MemoryFile : VFSFile
             }
         }
 
-        override void openWrite(Flag!"append" append) @trusted
+        override void openWrite(Flag!"append" append)
         {
             assert(mode_ == Mode.Closed, "Trying to open a file that is already open" ~ path);
             assert(writable, "Trying open a non-writable file for writing: " ~ path);
@@ -338,7 +340,7 @@ class MemoryFile : VFSFile
             seekPosition_ = cast(ulong)position;
         }
 
-        override void close() @trusted
+        override void close()
         {
             assert(mode_ != Mode.Closed, "Trying to close an unopened file: " ~ path);
 

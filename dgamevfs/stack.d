@@ -125,7 +125,7 @@ class StackDir : VFSDir
             return false;
         }
 
-        override @property bool exists() const @trusted
+        override @property bool exists() const
         {
             foreach(pkg; stack_) if(pkg.exists)
             {
@@ -294,8 +294,20 @@ class StackDir : VFSDir
             dir.parent = this;
         }
 
+        override void remove()
+        {
+            const removable = !stack_.canFind!((d) => !d.writable)();
+            enforce(removable,
+                    ioError("Couldn't remove stack directory ", path, " at ",
+                            "least one directory in the stack is not writable"));
+            foreach(dir; stack_)
+            {
+                dir.remove();
+            }
+        }
+
     protected:
-        override string composePath(const VFSDir child) const @safe
+        override string composePath(const VFSDir child) const
         {
             //child is in stack_ - override its path:
             foreach(pkg; stack_) if (pkg is child)
@@ -385,7 +397,7 @@ class StackFile : VFSFile
             return false;
         }
 
-        override @property bool open() const pure @safe nothrow {return openFile_ !is null;}
+        override @property bool open() const {return openFile_ !is null;}
 
     protected:
         override void openRead()
@@ -402,7 +414,7 @@ class StackFile : VFSFile
             assert(false, "Trying to open a non-existent file for reading: " ~ path);
         }
 
-        override void openWrite(Flag!"append" append) @trusted
+        override void openWrite(Flag!"append" append)
         {
             assert(openFile_ is null, "Trying to open a file that is already open: " ~ path);
             assert(writable, "Trying open a non-writable file for writing: " ~ path);
@@ -437,7 +449,7 @@ class StackFile : VFSFile
             seekProxy(openFile_, offset, origin);
         }
 
-        override void close() @trusted
+        override void close()
         {
             assert(openFile_ !is null, "Trying to close an unopened file: " ~ path);
             closeProxy(openFile_);

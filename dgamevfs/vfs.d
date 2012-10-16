@@ -93,10 +93,10 @@ abstract class VFSDir
 
     public:
         ///Get the _name of this directory.
-        final @property string name() const @safe {return pathInParent_;}
+        final @property string name() const pure {return pathInParent_;}
 
         ///Get full _path of this directory in the VFS.
-        final @property string path() const @safe
+        final @property string path() const 
         {
             return parent_ is null ? pathInParent_ : parent_.composePath(this);
         }
@@ -105,7 +105,7 @@ abstract class VFSDir
         @property bool writable() const;
 
         ///Does the directory exist?
-        @property bool exists() const @trusted;
+        @property bool exists() const;
 
         /**
          * Get _file with specified _path in the directory.
@@ -195,6 +195,18 @@ abstract class VFSDir
             create_();
         }
 
+        /**
+         * Remove the directory if it exists (otherwise do nothing).
+         *
+         * Removes recursively, together with any subdirectories and files.
+         *
+         * Warning: This will make any references to subdirectories or 
+         *          files in this directory invalid.
+         *
+         * Throws:  $(D VFSIOException) if the directory could not be removed.
+         */
+        void remove();
+
     protected:
         /**
          * Constructor to initialize state common for $(D VFSDir) implementations.
@@ -215,7 +227,7 @@ abstract class VFSDir
         static VFSFiles filesRange(VFSFiles.Items files) {return VFSFiles(files);}
 
         ///Compose path for a _child directory. Used e.g. to allow $(D StackDir) to set children's paths.
-        string composePath(const VFSDir child) const @safe
+        string composePath(const VFSDir child) const
         {
             return path ~ "/" ~ child.name;
         }
@@ -381,14 +393,14 @@ abstract class VFSFile
 
     public:
         ///Get _name of the file.
-        final @property string name() const @safe
+        final @property string name() const 
         {
             invariant_(); scope(exit){invariant_();}
             return pathInParent_;
         }
 
         ///Get full _path of the file in the VFS.
-        final @property string path() const @safe
+        final @property string path() const 
         {
             invariant_(); scope(exit){invariant_();}
             return parent_.path ~ "/" ~ pathInParent_;
@@ -412,7 +424,7 @@ abstract class VFSFile
         }
 
         ///Is the file _open?
-        @property bool open() const pure @safe nothrow;
+        @property bool open() const;
 
         /**
          * Open the file and get reading access. 
@@ -468,9 +480,7 @@ abstract class VFSFile
         void openRead();
 
         ///Open the file for writing/appending.
-        ///
-        ///Throws: VFSIOException on failure.
-        void openWrite(Flag!"append" append) @trusted;
+        void openWrite(Flag!"append" append);
 
         /**
          * Read up to $(D target.length) bytes to target from current file position.
@@ -488,7 +498,7 @@ abstract class VFSFile
         void seek(long offset, Seek origin);
 
         ///Close the file, finalizing any file operations.
-        void close() @trusted;
+        void close();
 
         ///Proxies to for derived VFSFiles to call protected members of other VFSFiles.
         static void openReadProxy(VFSFile file){file.openRead();}
@@ -501,11 +511,11 @@ abstract class VFSFile
         ///Ditto
         static void seekProxy(VFSFile file, long offset, Seek origin){file.seek(offset, origin);}
         ///Ditto
-        static void closeProxy(VFSFile file) @safe {file.close();}
+        static void closeProxy(VFSFile file){file.close();}
 
     private:
         //Using this due invariant related compiler bugs.
-        void invariant_() const @trusted
+        void invariant_() const
         {
             assert(parent_.exists, "File with a nonexistent parent directory " 
                                    " - this shouldn't happen as a directory should only "
@@ -642,7 +652,7 @@ struct VFSFileInput
 
     private:
         //Due to a compiler bug, invariant segfaults - so using this instead.
-        void invariant_() const pure @safe nothrow
+        void invariant_()
         {
             assert(isNull_ || (file_ !is null && file_.open),
                    "File worked on by VFSFileInput must be open during FileInput's lifetime");
@@ -743,7 +753,7 @@ struct VFSFileOutput
         }
 
         //Postblit ctor (refcountng)
-        this(this) pure @safe nothrow
+        this(this)
         {
             invariant_(); scope(exit){invariant_();}
             if(isNull_){return;}
@@ -751,7 +761,7 @@ struct VFSFileOutput
         }
 
         //Postblit dtor (refcountng)
-        @safe ~this()
+        ~this()
         {
             invariant_();
             if(isNull_){return;}
@@ -760,7 +770,7 @@ struct VFSFileOutput
         }
 
         //Assignment operator (refcounting)
-        void opAssign(VFSFileOutput rhs) @safe
+        void opAssign(VFSFileOutput rhs)
         {          
             invariant_(); scope(exit){invariant_();}
             if(!rhs.isNull_){++rhs.refCount_.count;}
@@ -772,9 +782,7 @@ struct VFSFileOutput
 
     package:
         //Construct a VFSFileOutput writing/appending to specified file.
-        //
-        //Throws: VFSIOException on failure to open file.
-        this(VFSFile file, Flag!"append" append) @safe
+        this(VFSFile file, Flag!"append" append)
         {
             isNull_ = false;
             refCount_ = new RefCount();
@@ -788,7 +796,7 @@ struct VFSFileOutput
 
     private:
         //Due to a compiler bug(?), invariant segfaults - so using this instead.
-        void invariant_() const pure @safe nothrow
+        void invariant_()
         {
             assert(isNull_ || (file_ !is null && file_.open),
                    "File worked on by VFSFileOutput must be open during VFSFileOutput's lifetime");

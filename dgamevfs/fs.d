@@ -37,7 +37,7 @@ class FSDir : VFSDir
 
         //Is this directory writable?
         Flag!"writable" writable_;
-        
+
     public:
         /**
          * Construct an $(D FSDir).
@@ -56,10 +56,7 @@ class FSDir : VFSDir
 
         override @property bool writable() const {return writable_;}
 
-        override @property bool exists() const @trusted
-        {
-            return .exists(physicalPath_);
-        }
+        override @property bool exists() const {return .exists(physicalPath_);}
 
         override VFSFile file(string path)
         {
@@ -164,6 +161,20 @@ class FSDir : VFSDir
             return dirsRange(dirs);
         }
 
+        override void remove()
+        {
+            if(!exists){return;}
+            try
+            {
+                rmdirRecurse(physicalPath_);
+            }
+            catch(FileException e)
+            {
+                throw ioError("Failed to remove filesystem directory ", path,
+                              " with physical path ", physicalPath_);
+            }
+        }
+
     protected:
         override void create_()
         {
@@ -250,7 +261,7 @@ class FSFile : VFSFile
 
         override @property bool exists() const {return .exists(physicalPath_);}
             
-        override @property bool open() const pure @safe nothrow {return mode_ != Mode.Closed;}
+        override @property bool open() const {return mode_ != Mode.Closed;}
 
     protected:    
         override void openRead()
@@ -266,7 +277,7 @@ class FSFile : VFSFile
             mode_ = Mode.Read;
         }
 
-        override void openWrite(Flag!"append" append) @trusted
+        override void openWrite(Flag!"append" append)
         {
             assert(mode_ == Mode.Closed, "Trying to open a file that is already open" ~ path);
             assert(writable, "Trying open a non-writable file for writing: " ~ path);
@@ -338,7 +349,7 @@ class FSFile : VFSFile
             }
         }
 
-        override void close() @trusted
+        override void close()
         {
             assert(mode_ != Mode.Closed, "Trying to close an unopened file: " ~ path);
 
