@@ -210,11 +210,10 @@ class FSDir : VFSDir
         this(FSDir parent, string pathInParent, string physicalPath, 
              Flag!"writable" writable)
         {
-            physicalPath = cleanFSPath(physicalPath);
+            physicalPath_ = (cleanFSPath(physicalPath)).idup;
             pathInParent = cleanFSPath(pathInParent);
-            enforce(isValidPath(physicalPath), 
-                    invalidPath("Invalid physical directory path: ", physicalPath));
-            physicalPath_ = physicalPath;
+            enforce(isValidPath(physicalPath_), 
+                    invalidPath("Invalid physical directory path: ", physicalPath_));
             if(exists)
             {
                 enforce(isDir(physicalPath_),
