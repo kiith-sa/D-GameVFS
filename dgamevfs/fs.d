@@ -128,6 +128,7 @@ class FSDir : VFSDir
                 auto relative = e.name;
                 relative.skipOver(physicalPath_);
                 relative.skipOver("/");
+                relative.skipOver("\\");
                 if(glob is null || globMatch(relative, glob)) 
                 {
                     files.insert(new FSFile(this, relative, e.name));
@@ -152,6 +153,7 @@ class FSDir : VFSDir
                 auto relative = e.name;
                 relative.skipOver(physicalPath_);
                 relative.skipOver("/");
+                relative.skipOver("\\");
                 if(glob is null || globMatch(relative, glob)) 
                 {
                     dirs.insert(new FSDir(this, relative, e.name, writable_));
