@@ -9,7 +9,7 @@
 module dgamevfs.exceptions;
 
 
-import std.string;
+import std.conv;
 
 
 ///Parent class of all exceptions thrown at VFS errors.
@@ -65,7 +65,9 @@ template error(E) if(is(E : VFSException))
 {
     E error(string file = __FILE__, int line = __LINE__, A ...)(A args) @trusted
     {
-        return new E(std.string.format(args), file, line);
+        string message;
+        foreach(arg; args) {message ~= to!string(arg);}
+        return new E(message, file, line);
     }
 }
 
