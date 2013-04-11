@@ -262,10 +262,10 @@ class FSFile : VFSFile
         }
 
         override @property bool exists() const {return .exists(physicalPath_);}
-            
+
         override @property bool open() const {return mode_ != Mode.Closed;}
 
-    protected:    
+    protected:
         override void openRead()
         {          
             assert(exists, "Trying to open a nonexistent file for reading: " ~ path);
@@ -362,7 +362,7 @@ class FSFile : VFSFile
 
     private:
         /*
-         * Construct a FSFile.
+         * Construct an FSFile.
          *
          * Params:  parent       = Parent directory.
          *          pathInParent = Path of the file in the parent directory (aka file name).
@@ -387,6 +387,28 @@ class FSFile : VFSFile
             super(parent, pathInParent);
         }
 
+        /*
+         * Construct an FSFile without a parent directory (i.e. outside the VFS).
+         *
+         * Params:  physicalPath = Path in the physical filesystem.
+         *
+         * Throws:  VFSInvalidPathException if the physical path is not valid.
+         */
+        this(string physicalPath)
+        {
+            physicalPath = cleanFSPath(physicalPath);
+            enforce(isValidPath(physicalPath),
+                    invalidPath("Invalid file name: ", physicalPath));
+            physicalPath_ = physicalPath;
+            if(exists)
+            {
+                enforce(isFile(physicalPath_),
+                        invalidPath("Trying to construct a FSFile with physical path ",
+                                     physicalPath_, " that is not a file."));
+            }
+            super(physicalPath);
+        }
+
         //Determine seek position in the file.
         @property final ulong seekPosition()
         {
@@ -401,3 +423,14 @@ class FSFile : VFSFile
         }
 }
 
+/// Construct a plain file, not using the VFS.
+///
+/// Allows to use the D:GameVFS API for standalone files.
+///
+/// Params:  path = Path of the file in the physical filesystem.
+///
+/// Throws:  VFSInvalidPathException if the path is not valid.
+FSFile physicalFSFile(string path)
+{
+    return new FSFile(path);
+}

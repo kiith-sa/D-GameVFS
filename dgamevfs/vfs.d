@@ -385,10 +385,16 @@ abstract class VFSFile
         }
 
     private:
-        //Parent directory of this file.
+        // Is this a standalone VFSFile without a parent directory?
+        //
+        // Used for files outside of the VFS used through the D:GameVFS API.
+        bool noParent_ = false;
+
+        // Parent directory of this file.
         VFSDir parent_;
 
-        //Path of this file within the parent directory (name of the file).
+        // Path of this file within the parent directory (name of the file).
+        // If noParent is true, this is actually the absolute path.
         string pathInParent_;
 
     public:
@@ -403,7 +409,7 @@ abstract class VFSFile
         final @property string path() const 
         {
             invariant_(); scope(exit){invariant_();}
-            return parent_.path ~ "/" ~ pathInParent_;
+            return noParent_ ? pathInParent_ : (parent_.path ~ "/" ~ pathInParent_);
         }
 
         /**
@@ -417,10 +423,11 @@ abstract class VFSFile
         @property bool exists() const;
 
         ///Is it possible to write to this file?
-        final @property bool writable() const 
+        @property bool writable() const
         {
             invariant_(); scope(exit){invariant_();}
-            return parent_.writable;
+            // Assume writable for non-relative files.
+            return noParent_ ? true : parent_.writable;
         }
 
         ///Is the file _open?
@@ -476,6 +483,20 @@ abstract class VFSFile
             invariant_();
         }
 
+        /**
+         * Constructor to initialize a $(D VFSFile) without a parent.
+         *
+         * Params:  noParent       = Parent directory. Must not be null.
+         *          pathInParent = Path of the file within the _parent.
+         */
+        this(string absolutePath)
+        {
+            noParent_     = true;
+            parent_       = null;
+            pathInParent_ = absolutePath;
+            invariant_();
+        }
+
         ///Open the file for reading.
         void openRead();
 
@@ -517,9 +538,10 @@ abstract class VFSFile
         //Using this due invariant related compiler bugs.
         void invariant_() const
         {
-            assert(parent_.exists, "File with a nonexistent parent directory " 
-                                   " - this shouldn't happen as a directory should only "
-                                   "provide access to its files if it exists");
+            assert(noParent_ || parent_.exists, 
+                   "File with a nonexistent parent directory " 
+                   " - this shouldn't happen as a directory should only "
+                   "provide access to its files if it exists");
         }
 }
 
@@ -729,7 +751,7 @@ struct VFSFileOutput
          *
          * Throws:  $(D VFSIOException) on error (e.g. after running out of disk space).
          */
-        void write(in void[] data)
+        void write(const void[] data)
         {
             assert(!isNull_, "Trying to write using an uninitialized VFSFileOutput");
             invariant_(); scope(exit){invariant_();}
@@ -771,7 +793,7 @@ struct VFSFileOutput
 
         //Assignment operator (refcounting)
         void opAssign(VFSFileOutput rhs)
-        {          
+        {
             invariant_(); scope(exit){invariant_();}
             if(!rhs.isNull_){++rhs.refCount_.count;}
             if(!isNull_){--refCount_.count;}
