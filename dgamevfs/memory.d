@@ -289,7 +289,7 @@ class MemoryFile : VFSFile
 
             if(buffer_ is null){buffer_ = [];}
             //Write overwrites the buffer.
-            else if(!append)   {clear(buffer_);}
+            else if(!append)   {destroy(buffer_);}
         }
 
         override void[] read(void[] target)

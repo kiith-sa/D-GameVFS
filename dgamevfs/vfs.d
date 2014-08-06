@@ -298,7 +298,7 @@ struct VFSRange(T) if(is(T == VFSDir) || is(T == VFSFile))
         //Destructor.
         ~this()
         {
-            clear(items_);
+            destroy(items_);
         }
 
         ///Get number of items in the range.
