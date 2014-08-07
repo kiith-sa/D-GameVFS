@@ -58,7 +58,7 @@ class MemoryDir : VFSDir
         override @property bool writable() @safe pure nothrow const @nogc {return writable_;}
 
         //Set whether this directory (and its subdirectories) should be writable or not.
-        @property void writable(bool rhs) 
+        @property void writable(bool rhs) @safe pure nothrow @nogc
         {
             writable_ = rhs ? Yes.writable : No.writable;
             foreach(dir; subdirs_) {dir.writable = rhs;}
