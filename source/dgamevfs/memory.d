@@ -129,6 +129,7 @@ class MemoryDir : VFSDir
         }
 
         override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null)
+            @trusted
         {
             enforce(exists,
                     notFound("Trying to access files of memory directory ",
@@ -161,7 +162,7 @@ class MemoryDir : VFSDir
             return filesRange(files);
         }
 
-        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null)
+        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null) @trusted
         {
             enforce(exists,
                     notFound("Trying to access subdirectories of memory directory ",
@@ -261,7 +262,7 @@ class MemoryFile : VFSFile
             return buffer_.length;
         }
 
-        override @property bool exists() const {return buffer_ !is null;}
+        override @property bool exists() @safe pure nothrow const @nogc {return buffer_ !is null;}
 
         override @property bool open() const
         {
