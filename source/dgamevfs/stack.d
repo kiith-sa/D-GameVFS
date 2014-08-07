@@ -109,7 +109,7 @@ class StackDir : VFSDir
          *
          * Throws:  $(D VFSInvalidPathException) if name is not valid (contains '/' or "::").
          */
-        this(string name)
+        this(string name) @safe pure
         {
             enforce(noSeparators(name),
                     invalidPath("Invalid directory name: ", name));
@@ -346,7 +346,7 @@ class StackDir : VFSDir
          *          pathInParent = Path of the subdir in all directories of parent's stack.
          *          stack        = Directory stack of the subdirectory.
          */
-        this(StackDir parent, string pathInParent, VFSDir[] stack)
+        this(StackDir parent, string pathInParent, VFSDir[] stack) @safe pure nothrow @nogc
         {
             super(parent, pathInParent);
             stack_ = stack;

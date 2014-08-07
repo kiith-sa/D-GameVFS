@@ -475,7 +475,7 @@ abstract class VFSFile
          * Params:  parent       = Parent directory. Must not be null.
          *          pathInParent = Path of the file within the _parent.
          */
-        this(VFSDir parent, string pathInParent)
+        this(VFSDir parent, string pathInParent) @safe nothrow
         {
             assert(parent !is null, "Can't construct a file with no parent");
             parent_ = parent;
@@ -489,7 +489,7 @@ abstract class VFSFile
          * Params:  noParent       = Parent directory. Must not be null.
          *          pathInParent = Path of the file within the _parent.
          */
-        this(string absolutePath)
+        this(string absolutePath) @safe nothrow
         {
             noParent_     = true;
             parent_       = null;
