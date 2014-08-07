@@ -188,7 +188,7 @@ abstract class VFSDir
          *
          * Throws:  $(D VFSIOException) if the directory could not be created.
          */
-        final void create()
+        final void create() @safe
         {
             enforce(writable,
                     ioError("Cannot create a non-writable directory (path: " ~ path ~ ")"));
@@ -205,7 +205,7 @@ abstract class VFSDir
          *
          * Throws:  $(D VFSIOException) if the directory could not be removed.
          */
-        void remove();
+        void remove() @system;
 
     protected:
         /**
@@ -233,7 +233,7 @@ abstract class VFSDir
         }
 
         ///Implementation of $(D create()). Caller contract guarantees that the directory is writable.
-        void create_();
+        void create_() @trusted; //!pure !nothrow !nogc
 
         ///Return a copy of this VFSDir without a parent. Used for mounting.
         VFSDir copyWithoutParent() @safe;
@@ -434,7 +434,7 @@ abstract class VFSFile
         }
 
         ///Is the file _open?
-        @property bool open() const;
+        @property bool open() @safe pure nothrow const @nogc;
 
         /**
          * Open the file and get reading access.
