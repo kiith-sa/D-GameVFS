@@ -221,10 +221,10 @@ abstract class VFSDir
         }
 
         ///Construct a range from a set of directories.
-        static VFSDirs dirsRange(VFSDirs.Items dirs) {return VFSDirs(dirs);}
+        static VFSDirs dirsRange(VFSDirs.Items dirs) @safe {return VFSDirs(dirs);}
 
         ///Construct a range from a set of _files.
-        static VFSFiles filesRange(VFSFiles.Items files) {return VFSFiles(files);}
+        static VFSFiles filesRange(VFSFiles.Items files) @safe {return VFSFiles(files);}
 
         ///Compose path for a _child directory. Used e.g. to allow $(D StackDir) to set children's paths.
         string composePath(const VFSDir child) @safe const pure nothrow
