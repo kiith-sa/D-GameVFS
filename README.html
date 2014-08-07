@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
 <title>D:GameVFS 0.1</title>
 <style type="text/css">
 
 /*
 :Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 6253 2010-03-02 00:24:53Z milde $
+:Id: $Id: html4css1.css 7614 2013-02-21 15:55:51Z milde $
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
@@ -47,6 +47,10 @@ blockquote.epigraph {
 dl.docutils dd {
   margin-bottom: 0.5em }
 
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
 /* Uncomment (and remove this text!) to get bold-faced definition list terms
 dl.docutils dt {
   font-weight: bold }
@@ -73,7 +77,7 @@ div.tip p.admonition-title {
 
 div.attention p.admonition-title, div.caution p.admonition-title,
 div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title {
+div.warning p.admonition-title, .code .error {
   color: red ;
   font-weight: bold ;
   font-family: sans-serif }
@@ -185,7 +189,7 @@ img.align-center, .figure.align-center, object.align-center {
 
 /* reset inner alignment in figures */
 div.align-right {
-  text-align: left }
+  text-align: inherit }
 
 /* div.align-center * { */
 /*   text-align: left } */
@@ -245,9 +249,18 @@ pre.address {
   margin-top: 0 ;
   font: inherit }
 
-pre.literal-block, pre.doctest-block {
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
   margin-left: 2em ;
   margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
 
 span.classifier {
   font-family: sans-serif ;
@@ -299,6 +312,21 @@ table.docutils th.field-name, table.docinfo th.docinfo-name {
   text-align: left ;
   white-space: nowrap ;
   padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
 
 h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
 h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
@@ -357,7 +385,7 @@ compatibility breaking changes in future versions.</p>
 <tr><td><tt class="docutils literal">./doc</tt></td>
 <td>Documentation.</td>
 </tr>
-<tr><td><tt class="docutils literal">./dgamevfs</tt></td>
+<tr><td><tt class="docutils literal">./source</tt></td>
 <td>Source code.</td>
 </tr>
 <tr><td><tt class="docutils literal">./examples</tt></td>
@@ -370,151 +398,135 @@ compatibility breaking changes in future versions.</p>
 <h1>Getting started</h1>
 <div class="section" id="install-the-dmd-compiler">
 <h2>Install the DMD compiler</h2>
-<p>Digital Mars D compiler, or DMD, is the most commonly used D compiler. You can
-find its newest version <a class="reference external" href="http://dlang.org/download.html">here</a>.
-Download the version of DMD for your operating system and install it.</p>
+<p>Digital Mars D compiler, or DMD, is the most commonly used D compiler. You can find its
+newest version <a class="reference external" href="http://dlang.org/download.html">here</a>.  Download the version of DMD
+for your operating system and install it.</p>
 <div class="note">
 <p class="first admonition-title">Note</p>
 <p class="last">Other D compilers exist, such as
-<a class="reference external" href="http://bitbucket.org/goshawk/gdc/wiki/Home">GDC</a> and
-<a class="reference external" href="http://www.dsource.org/projects/ldc/">LDC</a>. Setting up with either one of
-them should be similar to DMD, but they are not yet as stable.</p>
+<a class="reference external" href="http://gdcproject.org/">GDC</a> and
+<a class="reference external" href="http://bitbucket.org/goshawk/gdc/wiki/Home">LDC</a>.</p>
 </div>
 </div>
-<div class="section" id="download-and-compile-d-gamevfs">
-<h2>Download and compile D:GameVFS</h2>
-<p>The newest version of D:GameVFS can be found at
-<a class="reference external" href="https://github.com/Kiith-Sa/D-GameVFS">GitHub</a>. Download a source archive,
-extract it, and move to the extracted directory.</p>
-<p>D:GameVFS uses a modified version of the
-<a class="reference external" href="http://dsource.org/projects/cdc/">CDC</a> script for compilation. To compile
-D:GameVFS, you first need to build CDC. Do this by typing the following command
-into the console:</p>
-<pre class="literal-block">
-dmd cdc.d
-</pre>
-<p>Now compile D:GameVFS with CDC.
-To do this on Unix/Linux, use the following command:</p>
-<pre class="literal-block">
-./cdc
-</pre>
-<p>On Windows:</p>
-<pre class="literal-block">
-cdc.exe
-</pre>
-<p>This will compile the library to a file called <tt class="docutils literal">libdgamevfs.a</tt> on Unix/Linux
-or <tt class="docutils literal">libdgamevfs.lib</tt> on Windows.</p>
+<div class="section" id="install-dub">
+<h2>Install dub</h2>
+<p><a class="reference external" href="http://code.dlang.org/about">dub</a> is a build system and package manager for D.
+It is the standard way to manage D projects and their dependencies, compilation and so
+on.</p>
+<p>DMD may include DUB in future releases, but at this point we need to install it
+separately. See
+<a class="reference external" href="https://github.com/D-Programming-Language/dub#installation">installation instructions</a>.</p>
 </div>
 <div class="section" id="simple-d-gamevfs-project">
 <h2>Simple D:GameVFS project</h2>
-<p>Create a directory for your project. To have something for D:GameVFS to work
-with, create directories <tt class="docutils literal">main_data</tt> and <tt class="docutils literal">user_data</tt> in the project
-directory. In these directories, create some random files or subdirectories.
-Create a file called <tt class="docutils literal">main.d</tt> in your project directory. Paste the following
-code into the file:</p>
-<pre class="literal-block">
-import std.stdio;
-import std.typecons;
-import dgamevfs._;
+<p>Create a directory for your project. To have something for D:GameVFS to work with,
+create subdirectories <tt class="docutils literal">main_data</tt> and <tt class="docutils literal">user_data</tt> in the project directory. In these
+directories, create some random files or subdirectories.  Create a file called
+<tt class="docutils literal">main.d</tt> in your project directory. Paste the following code into the file:</p>
+<pre class="code d literal-block">
+<span class="keyword">import</span> <span class="name">std</span><span class="punctuation">.</span><span class="name">stdio</span><span class="punctuation">;</span>
+<span class="keyword">import</span> <span class="name">std</span><span class="punctuation">.</span><span class="name">typecons</span><span class="punctuation">;</span>
+<span class="keyword">import</span> <span class="name">dgamevfs</span><span class="punctuation">.</span><span class="name">_</span><span class="punctuation">;</span>
 
-void main()
-{
-    //Two filesystem directories, one read-only and the other read-write.
-    auto main = new FSDir(&quot;main&quot;, &quot;main_data/&quot;, No.writable);
-    auto user = new FSDir(&quot;user&quot;, &quot;user_data/&quot;, Yes.writable);
+<span class="keyword type">void</span> <span class="name">main</span><span class="punctuation">()</span>
+<span class="punctuation">{</span>
+    <span class="comment single">// Two filesystem directories, one read-only and the other read-write.
+</span>    <span class="keyword">auto</span> <span class="name">main</span> <span class="punctuation">=</span> <span class="keyword">new</span> <span class="name">FSDir</span><span class="punctuation">(</span><span class="literal string">&quot;main&quot;</span><span class="punctuation">,</span> <span class="literal string">&quot;main_data/&quot;</span><span class="punctuation">,</span> <span class="name">No</span><span class="punctuation">.</span><span class="name">writable</span><span class="punctuation">);</span>
+    <span class="keyword">auto</span> <span class="name">user</span> <span class="punctuation">=</span> <span class="keyword">new</span> <span class="name">FSDir</span><span class="punctuation">(</span><span class="literal string">&quot;user&quot;</span><span class="punctuation">,</span> <span class="literal string">&quot;user_data/&quot;</span><span class="punctuation">,</span> <span class="name">Yes</span><span class="punctuation">.</span><span class="name">writable</span><span class="punctuation">);</span>
 
-    //Stack directory where &quot;user&quot; overrides &quot;main&quot;.
-    auto stack = new StackDir(&quot;root&quot;);
-    stack.mount(main);
-    stack.mount(user);
+    <span class="comment single">// Stack directory where &quot;user&quot; overrides &quot;main&quot;.
+</span>    <span class="keyword">auto</span> <span class="name">stack</span> <span class="punctuation">=</span> <span class="keyword">new</span> <span class="name">StackDir</span><span class="punctuation">(</span><span class="literal string">&quot;root&quot;</span><span class="punctuation">);</span>
+    <span class="name">stack</span><span class="punctuation">.</span><span class="name">mount</span><span class="punctuation">(</span><span class="name">main</span><span class="punctuation">);</span>
+    <span class="name">stack</span><span class="punctuation">.</span><span class="name">mount</span><span class="punctuation">(</span><span class="name">user</span><span class="punctuation">);</span>
 
-    //Iterate over all files recursively, printing their VFS paths.
-    foreach(file; stack.files(Yes.deep))
-    {
-        writeln(file.path);
-    }
+    <span class="comment single">// Iterate over all files recursively, printing their VFS paths.
+</span>    <span class="keyword">foreach</span><span class="punctuation">(</span><span class="name">file</span><span class="punctuation">;</span> <span class="name">stack</span><span class="punctuation">.</span><span class="name">files</span><span class="punctuation">(</span><span class="name">Yes</span><span class="punctuation">.</span><span class="name">deep</span><span class="punctuation">))</span>
+    <span class="punctuation">{</span>
+        <span class="name">writeln</span><span class="punctuation">(</span><span class="name">file</span><span class="punctuation">.</span><span class="name">path</span><span class="punctuation">);</span>
+    <span class="punctuation">}</span>
 
-    VFSFile file = stack.file(&quot;new_file.txt&quot;);
-    //Creates &quot;new_file&quot; in &quot;user&quot; (which is on top of &quot;main&quot; in the stack).
-    file.output.write(cast(const void[])&quot;Hello World!&quot;);
+    <span class="name">VFSFile</span> <span class="name">file</span> <span class="punctuation">=</span> <span class="name">stack</span><span class="punctuation">.</span><span class="name">file</span><span class="punctuation">(</span><span class="literal string">&quot;new_file.txt&quot;</span><span class="punctuation">);</span>
+    <span class="comment single">// Creates &quot;new_file&quot; in &quot;user&quot; (which is on top of &quot;main&quot; in the stack).
+</span>    <span class="name">file</span><span class="punctuation">.</span><span class="name">output</span><span class="punctuation">.</span><span class="name">write</span><span class="punctuation">(</span><span class="keyword">cast</span><span class="punctuation">(</span><span class="keyword">const</span> <span class="keyword type">void</span><span class="punctuation">[])</span><span class="literal string">&quot;Hello World!&quot;</span><span class="punctuation">);</span>
 
-    //Read what we've written.
-    auto buffer = new char[file.bytes];
-    file.input.read(cast(void[]) buffer);
+    <span class="comment single">// Read what we've written.
+</span>    <span class="keyword">auto</span> <span class="name">buffer</span> <span class="punctuation">=</span> <span class="keyword">new</span> <span class="keyword type">char</span><span class="punctuation">[</span><span class="name">file</span><span class="punctuation">.</span><span class="name">bytes</span><span class="punctuation">];</span>
+    <span class="name">file</span><span class="punctuation">.</span><span class="name">input</span><span class="punctuation">.</span><span class="name">read</span><span class="punctuation">(</span><span class="keyword">cast</span><span class="punctuation">(</span><span class="keyword type">void</span><span class="punctuation">[])</span> <span class="name">buffer</span><span class="punctuation">);</span>
 
-    writeln(buffer);
-}
+    <span class="name">writeln</span><span class="punctuation">(</span><span class="name">buffer</span><span class="punctuation">);</span>
+<span class="punctuation">}</span>
 </pre>
-<p>Code for this example can be found in the <tt class="docutils literal">examples/getting_started</tt>
-directory.</p>
+<p>Code for this example can be found in the <tt class="docutils literal">examples/getting_started</tt> directory.</p>
 <p>See the API documentation in the <tt class="docutils literal">doc/html/</tt> directory (in particular, the
 <em>dgamevfs.vfs</em> module) for more code examples.</p>
 </div>
 <div class="section" id="explanation-of-the-code">
 <h2>Explanation of the code</h2>
 <p>We start by importing <em>dgamevfs._</em> which imports all needed D:GameVFS modules.
-D:GameVFS uses the <em>Flag</em> template instead of booleans for more descriptive
-parameters (such as <tt class="docutils literal">Yes.writable</tt> instead of <tt class="docutils literal">true</tt>). You need to import
-<em>std.typecons</em> to use <em>Flag</em>.</p>
-<p>We create two <em>FSDirs</em> - physical file system directory objects, which will be
-called <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> in the VFS and will represent the <tt class="docutils literal">main_data</tt> and
-<tt class="docutils literal">user_data</tt> directories which we've created in our project directory.
-We construct <tt class="docutils literal">main</tt> as a non-writable directory - it's read-only for the VFS.</p>
-<p>Next, we create a <em>StackDir</em> and <em>mount()</em> our directories to it. <em>StackDir</em>
-works with mounted directories as if they were a single directory - for
-instance, reading <tt class="docutils literal">file.txt</tt> from the StackDir, will first try to read
-<tt class="docutils literal">user_data/file.txt</tt>, and if that file does not exist, <tt class="docutils literal">main_data/file.txt</tt>.
-Files in directories mounted later take precedence over those mounted earlier.</p>
-<p><em>StackDir</em> makes it possible, for example, to have a main game directory with
-common files and a mod directory overriding some of those files.</p>
-<p>Then we iterate over all files in the <em>StackDir</em> recursively (using the
-<tt class="docutils literal">Yes.deep</tt> argument) - including files in subdirectories. Path of each file
-in the VFS is printed. You should see in the output that the files' paths
-specify <tt class="docutils literal">stack</tt> as their parent since <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> are mounted to
-<tt class="docutils literal">stack</tt>. (Note that the paths will refer to <tt class="docutils literal">stack</tt> as parent even if
-iterating over <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> - as those are now mounted to <tt class="docutils literal">stack</tt>.)</p>
-<p>Then we get a <em>VFSFile</em> - D:GameVFS file object - from the <tt class="docutils literal">stack</tt> directory.
-This file does not exist yet (unless you created it). It will be created when
-we write to it.</p>
-<p>To obtain writing access, we get the <em>VFSFileOutput</em> struct using the
-<em>VFSFile.output()</em> method. <em>VFSFileOutput</em> provides basic output functionality.
-It uses reference counting to automatically close the file when you are done
-with it. Since we just want to write some simple text, we call its <em>write()</em>
-method directly. <em>VFSFileOutput.write()</em> writes a raw buffer of data to the
-file, similarly to <em>fwrite()</em> from the C standard library.</p>
+D:GameVFS uses the <em>Flag</em> template instead of booleans for more descriptive parameters
+(such as <tt class="docutils literal">Yes.writable</tt> instead of <tt class="docutils literal">true</tt>). You need to import <em>std.typecons</em> to use
+<em>Flag</em>.</p>
+<p>We create two <em>FSDirs</em> - physical file system directory objects, which will be called
+<tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> in the VFS and will represent the <tt class="docutils literal">main_data</tt> and <tt class="docutils literal">user_data</tt>
+directories which we've created in our project directory.  We construct <tt class="docutils literal">main</tt> as
+a non-writable directory - it's read-only for the VFS.</p>
+<p>Next, we create a <em>StackDir</em> and <em>mount()</em> our directories to it. <em>StackDir</em> works with
+mounted directories as if they were a single directory - for instance, reading
+<tt class="docutils literal">file.txt</tt> from the StackDir, will first try to read <tt class="docutils literal">user_data/file.txt</tt>, and if
+that file does not exist, <tt class="docutils literal">main_data/file.txt</tt>.  Files in directories mounted later
+take precedence over those mounted earlier.</p>
+<p><em>StackDir</em> makes it possible, for example, to have a main game directory with common
+files and a mod directory overriding some of those files.</p>
+<p>Then we iterate over all files in the <em>StackDir</em> recursively (using the <tt class="docutils literal">Yes.deep</tt>
+argument) - including files in subdirectories. Path of each file in the VFS is printed.
+You should see in the output that the files' paths specify <tt class="docutils literal">stack</tt> as their parent
+since <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> are mounted to <tt class="docutils literal">stack</tt>. (Note that the paths will refer to
+<tt class="docutils literal">stack</tt> as parent even if iterating over <tt class="docutils literal">main</tt> and <tt class="docutils literal">user</tt> - as those are now
+mounted to <tt class="docutils literal">stack</tt>.)</p>
+<p>Then we get a <em>VFSFile</em> - D:GameVFS file object - from the <tt class="docutils literal">stack</tt> directory.  This
+file does not exist yet (unless you created it). It will be created when we write to it.</p>
+<p>To obtain writing access, we get the <em>VFSFileOutput</em> struct using the <em>VFSFile.output()</em>
+method. <em>VFSFileOutput</em> provides basic output functionality.  It uses reference counting
+to automatically close the file when you are done with it. Since we just want to write
+some simple text, we call its <em>write()</em> method directly. <em>VFSFileOutput.write()</em> writes
+a raw buffer of data to the file, similarly to <em>fwrite()</em> from the C standard library.</p>
 <p>Note that we're working on a file from a <em>StackDir</em>. <em>StackDir</em> decides where to
-actually write the data. In our case, the newest mounted directory is <tt class="docutils literal">user</tt>,
-which is also writable, so the data is written to <tt class="docutils literal">user_data/new_file.txt</tt>.</p>
-<p>In the end, we read the data back using the <em>VFSFileInput</em> class - input
-equivalent of <em>VFSFileOutput</em> - which we get with the <em>VFSFile.input()</em> method.
-We read with the <em>VFSFileInput.read()</em> method, which reads data to provided
-buffer, up to the buffer length. We determine how large buffer we need to read
-the entire file with the <em>VFSFile.bytes()</em> method. The buffer might also be
-larger than the file - <em>read()</em> reads as much data as available and returns the
-part of the buffer containing the read data.</p>
+actually write the data. In our case, the newest mounted directory is <tt class="docutils literal">user</tt>, which is
+also writable, so the data is written to <tt class="docutils literal">user_data/new_file.txt</tt>.</p>
+<p>In the end, we read the data back using the <em>VFSFileInput</em> class - input analog of
+<em>VFSFileOutput</em> - which we get with the <em>VFSFile.input()</em> method.  We read with the
+<em>VFSFileInput.read()</em> method, which reads data to provided buffer, up to the buffer
+length. We determine how large buffer we need to read the entire file with the
+<em>VFSFile.bytes()</em> method. The buffer might also be larger than the file - <em>read()</em> reads
+as much data as available and returns the part of the buffer containing the read data.</p>
 </div>
 <div class="section" id="compiling">
 <h2>Compiling</h2>
-<p>To compile your project, DMD needs to know the directories containing the
-imported modules and the library. The import directory should be the D:GameVFS
-package directory. You can specify it using the <tt class="docutils literal"><span class="pre">-I</span></tt> option of DMD. The
-library directory should point to the compiled D:GameVFS library. On Unix/Linux
-you can specify it using the <tt class="docutils literal"><span class="pre">-L-L</span></tt> option, and link with D:GameVFS using the
-<tt class="docutils literal"><span class="pre">-L-l</span></tt> option. On Windows, the import directory is used as the library
-directory. To link with the library on Windows, just add the path to it relative
-to the current directory.</p>
-<p>For example, if you extracted D:GameVFS in <tt class="docutils literal">/home/xxx/dgamevfs</tt>, your project
-is in <tt class="docutils literal"><span class="pre">/home/xxx/dgamevfs-project</span></tt>, and you are currently in that directory,
-compile the project with the following command on Unix/Linux:</p>
-<pre class="literal-block">
-dmd -I../dgamevfs -L-L../dgamevfs -L-ldgamevfs main.d
+<p>We're going to use dub, which we installed at the beginning, to compile our project.</p>
+<p>Create a file called <tt class="docutils literal">dub.json</tt> with the following contents:</p>
+<pre class="code json literal-block">
+<span class="punctuation">{</span>
+    <span class="name tag">&quot;name&quot;</span><span class="punctuation">:</span> <span class="literal string double">&quot;getting-started&quot;</span><span class="punctuation">,</span>
+    <span class="name tag">&quot;targetType&quot;</span><span class="punctuation">:</span> <span class="literal string double">&quot;executable&quot;</span><span class="punctuation">,</span>
+    <span class="name tag">&quot;sourceFiles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="literal string double">&quot;main.d&quot;</span><span class="punctuation">],</span>
+    <span class="name tag">&quot;mainSourceFile&quot;</span><span class="punctuation">:</span> <span class="literal string double">&quot;main.d&quot;</span><span class="punctuation">,</span>
+    <span class="name tag">&quot;dependencies&quot;</span><span class="punctuation">:</span>
+    <span class="punctuation">{</span>
+        <span class="name tag">&quot;dgamevfs&quot;</span><span class="punctuation">:</span> <span class="punctuation">{</span> <span class="name tag">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="literal string double">&quot;~&gt;0.2.0&quot;</span> <span class="punctuation">},</span>
+    <span class="punctuation">},</span>
+<span class="punctuation">}</span>
 </pre>
-<p>And the following on Windows:</p>
+<p>This file tells dub that we're building an executable called <tt class="docutils literal"><span class="pre">getting-started</span></tt> from
+a D source file <tt class="docutils literal">main.d</tt>, and that our project depends on D:GameVFS 0.5.0 or any
+newer, bugfix release of D:GameVFS 0.5 . DUB will automatically find and download the
+correct version of D:YAML when the project is built.</p>
+<p>Now run the following command in your project's directory:</p>
 <pre class="literal-block">
-dmd -I../dgamevfs ../dgamevfs/libdgamevfs.lib main.d
+dub build
 </pre>
-<p>This will produce an executable called <tt class="docutils literal">main</tt> or <tt class="docutils literal">main.exe</tt> in your
-directory.</p>
+<p>dub will automatically download D:GameVFS and compile it, and then then it will compile
+our program.  This will generate an executable called <tt class="docutils literal"><span class="pre">getting-started</span></tt> or
+<tt class="docutils literal"><span class="pre">getting-started.exe</span></tt> in your directory.</p>
 </div>
 </div>
 <div class="section" id="license">
@@ -558,10 +570,8 @@ DEALINGS IN THE SOFTWARE.
 <p>D:GameVFS was created by Ferdinand Majerech aka Kiith-Sa kiithsacmp[AT]gmail.com .</p>
 <p>The API was inspired the VFS API of the
 <a class="reference external" href="http://www.dsource.org/projects/tango/">Tango library</a>.</p>
-<p>D:GameVFS uses a modified version of the
-<a class="reference external" href="http://www.dsource.org/projects/cdc">CDC build script</a>.</p>
-<p>D:GameVFS was created using Vim and DMD on Debian and Ubuntu Linux as
-in the <a class="reference external" href="http://www.d-programming-language.org">D programming language</a>.</p>
+<p>D:GameVFS was created using Vim and DMD on Debian, Ubuntu and Linux Mint as a VFS
+library in the <a class="reference external" href="http://www.d-programming-language.org">D programming language</a>.</p>
 </div>
 </div>
 </body>
