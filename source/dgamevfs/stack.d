@@ -116,7 +116,7 @@ class StackDir : VFSDir
             super(null, name);
         }
 
-        override @property bool writable() const
+        override @property bool writable() @safe pure nothrow const @nogc 
         {
             foreach(pkg; stack_) if(pkg.writable)
             {
@@ -125,7 +125,7 @@ class StackDir : VFSDir
             return false;
         }
 
-        override @property bool exists() const
+        override @property bool exists() @safe nothrow const
         {
             foreach(pkg; stack_) if(pkg.exists)
             {

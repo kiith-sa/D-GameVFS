@@ -420,10 +420,10 @@ abstract class VFSFile
         @property ulong bytes() const;
 
         ///Does the file exist?
-        @property bool exists() const;
+        @property bool exists() @safe const nothrow;
 
         ///Is it possible to write to this file?
-        @property bool writable() const
+        @property bool writable() @safe const nothrow
         {
             invariant_(); scope(exit){invariant_();}
             // Assume writable for non-relative files.
