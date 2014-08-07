@@ -1,3 +1,4 @@
+/examples/getting_started/getting-started
 /cdc.obj
 /unittest
 /unittest.obj
@@ -37,4 +38,5 @@ Thumbs.db
 # dub #
 #######
 .dub/*
+examples/*/.dub/*
 /__test__library__
