@@ -1,6 +1,7 @@
 /cdc.obj
 /unittest
 /unittest.obj
+
 # Backups #
 ###########
 *~
@@ -32,3 +33,8 @@ ehthumbs.db
 Icon?
 Thumbs.db
 .directory
+
+# dub #
+#######
+.dub/*
+/__test__library__
