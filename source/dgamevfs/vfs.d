@@ -93,10 +93,10 @@ abstract class VFSDir
 
     public:
         ///Get the _name of this directory.
-        final @property string name() const pure nothrow {return pathInParent_;}
+        final @property string name() @safe const pure nothrow @nogc {return pathInParent_;}
 
         ///Get full _path of this directory in the VFS.
-        final @property string path() const nothrow
+        final @property string path() @safe const pure nothrow
         {
             return parent_ is null ? pathInParent_ : parent_.composePath(this);
         }
@@ -227,7 +227,7 @@ abstract class VFSDir
         static VFSFiles filesRange(VFSFiles.Items files) {return VFSFiles(files);}
 
         ///Compose path for a _child directory. Used e.g. to allow $(D StackDir) to set children's paths.
-        string composePath(const VFSDir child) const nothrow
+        string composePath(const VFSDir child) @safe const pure nothrow
         {
             return path ~ "/" ~ child.name;
         }

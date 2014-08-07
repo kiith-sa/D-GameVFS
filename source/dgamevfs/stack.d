@@ -307,7 +307,7 @@ class StackDir : VFSDir
         }
 
     protected:
-        override string composePath(const VFSDir child) const nothrow
+        override string composePath(const VFSDir child) @safe const pure nothrow
         {
             //child is in stack_ - override its path:
             foreach(pkg; stack_) if (pkg is child)
