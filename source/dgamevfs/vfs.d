@@ -21,32 +21,32 @@ import dgamevfs.exceptions;
 /**
  * A directory in the VFS.
  *
- * Provides basic directory information and access to files and 
+ * Provides basic directory information and access to files and
  * subdirectories within the directory.
  *
  * Directory names in the VFS can contain any characters except $(B /),
  * which is used as directory separator, and the $(B ::) sequence, which is
  * used for explicit package lookup (see  $(D StackDir)).
- * 
+ *
  * Examples:
  * --------------------
  * //Construct the directory (ordinary physical file system directory in this case):
  * VFSDir dir = new FSDir("main", "./user_data/main", Yes.writable);
  *
  * //Print information about the directory:
- * writeln("name: ", dir.name, 
- *         ", full path: ", dir.path, 
- *         ", writable: ", dir.writable, 
+ * writeln("name: ", dir.name,
+ *         ", full path: ", dir.path,
+ *         ", writable: ", dir.writable,
  *         ", exists: ", dir.exists);
- * 
+ *
  * //Access a file. If it does not exist, it will be created when writing:
  * auto file = dir.file("logs/memory.log");
  *
  * //Access a subdirectory:
- * auto shaders = dir.dir("shaders"); 
+ * auto shaders = dir.dir("shaders");
  *
  * //Create a subdirectory. If the directory exists, nothing happens (no error):
- * auto shaders = dir.dir("does_not_exist").create(); 
+ * auto shaders = dir.dir("does_not_exist").create();
  *
  *
  * //dirs() and files() methods can be used to get ranges of files and subdirectories:
@@ -117,7 +117,7 @@ abstract class VFSDir
          *
          * Throws:  $(D VFSNotFoundException) if the directory does not exist
          *          or the _file is in a nonexistent subdirectory.
-         *          
+         *
          *          $(D VFSInvalidPathException) if the _path is invalid.
          *
          * Returns: File with specified _path.
@@ -134,7 +134,7 @@ abstract class VFSDir
          *
          * Throws:  $(D VFSNotFoundException) if this VFSDir does not exist
          *          or the subdirectory is in a nonexistent subdirectory.
-         *          
+         *
          *          $(D VFSInvalidPathException) if the _path is invalid.
          *
          * Returns: Subdirectory with specified _path.
@@ -146,18 +146,18 @@ abstract class VFSDir
          *
          * Params:  deep = If true, recursively get _files in subdirectories.
          *                 Otherwise only get _files directly in this directory.
-         *          glob = Glob pattern used to filter the results. 
+         *          glob = Glob pattern used to filter the results.
          *                 If null (default), all _files will be returned.
-         *                 Otherwise only _files whose VFS paths within this 
+         *                 Otherwise only _files whose VFS paths within this
          *                 directory match glob (case sensitive) will be
          *                 returned. Some characters of _glob patterns
          *                 have special meanings: For instance, $(I *.txt)
          *                 matches any path ending with the $(B .txt) extension.
-         *                 
+         *
          * Returns: Range of the _files.
          *
          * Throws:  $(D VFSNotFoundException) if the directory does not exist.
-         * 
+         *
          * See_also:
          * $(LINK2 http://en.wikipedia.org/wiki/Glob_%28programming%29,Wikipedia: _glob (programming))
          */
@@ -168,13 +168,13 @@ abstract class VFSDir
          *
          * Params:  deep = If true, recursively get all subdirectories.
          *                 Otherwise just get subdirectories of this directory.
-         *          glob = Glob pattern used to filter the results. 
-         *                 If null (default), all subdirectories will be 
+         *          glob = Glob pattern used to filter the results.
+         *                 If null (default), all subdirectories will be
          *                 returned. Otherwise only subdirectories whose VFS
-         *                 paths within this directory match glob 
+         *                 paths within this directory match glob
          *                 (case sensitive) will be returned. Some characters of
-         *                 _glob patterns have special meanings: For instance, 
-         *                 $(I *.txt) matches any path ending with the $(B .txt) 
+         *                 _glob patterns have special meanings: For instance,
+         *                 $(I *.txt) matches any path ending with the $(B .txt)
          *                 extension.
          *
          * Returns: Range of the directories.
@@ -190,7 +190,7 @@ abstract class VFSDir
          */
         final void create()
         {
-            enforce(writable, 
+            enforce(writable,
                     ioError("Cannot create a non-writable directory (path: " ~ path ~ ")"));
             create_();
         }
@@ -200,7 +200,7 @@ abstract class VFSDir
          *
          * Removes recursively, together with any subdirectories and files.
          *
-         * Warning: This will make any references to subdirectories or 
+         * Warning: This will make any references to subdirectories or
          *          files in this directory invalid.
          *
          * Throws:  $(D VFSIOException) if the directory could not be removed.
@@ -211,7 +211,7 @@ abstract class VFSDir
         /**
          * Constructor to initialize state common for $(D VFSDir) implementations.
          *
-         * Params:  parent       = Parent directory. If null, this directory has no _parent. 
+         * Params:  parent       = Parent directory. If null, this directory has no _parent.
          *          pathInParent = Path of the directory within the _parent.
          */
         this(VFSDir parent, string pathInParent)
@@ -354,17 +354,17 @@ alias VFSRange!VFSFile VFSFiles;
  * VFSFile file = dir.file("logs/memory.log");
  *
  * //Print information about the file (note that we can only get file size of an existing file):
- * writeln("name: ", file.name, ", full path: ", file.path, 
+ * writeln("name: ", file.name, ", full path: ", file.path,
  *         ", writable: ", file.writable, ", exists: ", file.exists,
  *         ", size in bytes: ", file.bytes);
- * 
+ *
  * //Get access to read from the file:
  * auto input = file.input;
  *
  * //Simply read the file to a buffer:
  * auto buffer = new ubyte[file.bytes];
  * file.input.read(buffer);
- * 
+ *
  * //Get access to write to the file:
  * auto output = file.output;
  *
@@ -399,14 +399,14 @@ abstract class VFSFile
 
     public:
         ///Get _name of the file.
-        final @property string name() const 
+        final @property string name() const
         {
             invariant_(); scope(exit){invariant_();}
             return pathInParent_;
         }
 
         ///Get full _path of the file in the VFS.
-        final @property string path() const 
+        final @property string path() const
         {
             invariant_(); scope(exit){invariant_();}
             return noParent_ ? pathInParent_ : (parent_.path ~ "/" ~ pathInParent_);
@@ -434,7 +434,7 @@ abstract class VFSFile
         @property bool open() const;
 
         /**
-         * Open the file and get reading access. 
+         * Open the file and get reading access.
          *
          * Returns: $(D VFSFileInput) providing _input access to the file.
          *
@@ -443,9 +443,9 @@ abstract class VFSFile
         final @property VFSFileInput input()
         {
             invariant_(); scope(exit){invariant_();}
-            enforce(exists, 
+            enforce(exists,
                     ioError("Trying to open a nonexistent file for reading: ", path));
-            enforce(!open, 
+            enforce(!open,
                     ioError("Trying to open for reading a file that is already open: ", path));
             return VFSFileInput(this);
         }
@@ -460,9 +460,9 @@ abstract class VFSFile
         final @property VFSFileOutput output(Flag!"append" append = No.append)
         {
             invariant_(); scope(exit){invariant_();}
-            enforce(writable, 
+            enforce(writable,
                     ioError("Trying to open a nonwritable file for writing: ", path));
-            enforce(!open, 
+            enforce(!open,
                     ioError("Trying to open for writing a file that is already open: ", path));
 
             return VFSFileOutput(this, append);
@@ -538,8 +538,8 @@ abstract class VFSFile
         //Using this due invariant related compiler bugs.
         void invariant_() const
         {
-            assert(noParent_ || parent_.exists, 
-                   "File with a nonexistent parent directory " 
+            assert(noParent_ || parent_.exists,
+                   "File with a nonexistent parent directory "
                    " - this shouldn't happen as a directory should only "
                    "provide access to its files if it exists");
         }
@@ -570,13 +570,13 @@ enum Seek
  * with(input)
  * {
  *     auto buffer = new ubyte[32];
- *     
+ *
  *     //Read the first 32 bytes from the file:
  *     read(buffer);
- *     
+ *
  *     //Read the next 32 bytes:
  *     read(buffer);
- *     
+ *
  *     //Read the last 32 bytes in the file:
  *     seek(-32, file);
  *     read(buffer);
@@ -601,7 +601,7 @@ struct VFSFileInput
         /**
          * Read at most $(D target.length) bytes starting at current file position to target.
          *
-         * If the file does not have enough bytes to fill target or a _reading 
+         * If the file does not have enough bytes to fill target or a _reading
          * error is encountered, it reads as much data as possible and returns
          * the part of target containing the _read data.
          *
@@ -669,7 +669,7 @@ struct VFSFileInput
             refCount_.count = 1;
             file_ = file;
             file_.openRead();
-            invariant_(); 
+            invariant_();
         }
 
     private:
@@ -696,7 +696,7 @@ struct VFSFileInput
  * {
  *     //Write to the file:
  *     write(cast(const void[])"The answer is ??");
- *     
+ *
  *     //Change the last two characters in the file:
  *     seek(-2, Seek.End);
  *     write(cast(const void[])"42");
@@ -706,7 +706,7 @@ struct VFSFileInput
  * --------------------
  * //Appending:
  * //When appending to the file, every write writes to the end of file
- * //regardless of any calls to seek(), and sets the file position 
+ * //regardless of any calls to seek(), and sets the file position
  * //to end of file. This
  * //(This is to stay in line with the C standard so we can use C functions directly)
  * auto output = file.output(Yes.append);
@@ -714,7 +714,7 @@ struct VFSFileInput
  * {
  *     //Append to the file:
  *     write(cast(const void[])"The answer is ??");
- *     
+ *
  *     //This will NOT change the last 2 characters: it will append anyway:
  *     seek(-2, Seek.End);
  *     write(cast(const void[])"42");
@@ -741,9 +741,9 @@ struct VFSFileOutput
          *
          * Note:
          *
-         * In append mode, any _write will _write to the end of file regardless 
-         * of the current file position and file position will be set to the 
-         * end of file. 
+         * In append mode, any _write will _write to the end of file regardless
+         * of the current file position and file position will be set to the
+         * end of file.
          *
          * (This is to stay in line with the C standard so we can use C I/O functions directly)
          *
@@ -813,7 +813,7 @@ struct VFSFileOutput
             file_ = file;
             file_.openWrite(append);
 
-            invariant_(); 
+            invariant_();
         }
 
     private:

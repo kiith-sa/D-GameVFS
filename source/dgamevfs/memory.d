@@ -17,7 +17,7 @@ import dgamevfs.vfs;
 import dgamevfs.util;
 
 
-package: 
+package:
 
 /*
  * VFSDir implementation that works with memory as a file system.
@@ -68,7 +68,7 @@ class MemoryDir : VFSDir
 
         override VFSFile file(string path)
         {
-            enforce(exists, 
+            enforce(exists,
                     notFound("Trying to access file ", path, " in memory directory ",
                               this.path, " that does not exist"));
             string rest;
@@ -99,7 +99,7 @@ class MemoryDir : VFSDir
 
         override VFSDir dir(string path)
         {
-            enforce(exists, 
+            enforce(exists,
                     notFound("Trying to access subdirectory ", path, " in memory "
                               "directory ", this.path, " that does not exist"));
             string rest;
@@ -130,14 +130,14 @@ class MemoryDir : VFSDir
 
         override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null)
         {
-            enforce(exists, 
-                    notFound("Trying to access files of memory directory ", 
+            enforce(exists,
+                    notFound("Trying to access files of memory directory ",
                               this.path, " that does not exist"));
 
             auto files = new VFSFiles.Items;
 
             //files in this directory
-            foreach(file; files_) 
+            foreach(file; files_)
             {
                 if(!file.exists){continue;}
 
@@ -149,7 +149,7 @@ class MemoryDir : VFSDir
             //files in subdirectories
             if(deep) foreach(dir; subdirs_)
             {
-                foreach(file; dir.files(deep)) 
+                foreach(file; dir.files(deep))
                 {
                     if(subPathMatch(file.path, path, glob))
                     {
@@ -163,8 +163,8 @@ class MemoryDir : VFSDir
 
         override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null)
         {
-            enforce(exists, 
-                    notFound("Trying to access subdirectories of memory directory ", 
+            enforce(exists,
+                    notFound("Trying to access subdirectories of memory directory ",
                               this.path, " that does not exist"));
 
             auto dirs = new VFSDirs.Items;
@@ -220,10 +220,10 @@ class MemoryDir : VFSDir
          *          writable = Is the directory writable?
          *          exists   = Does the directory exist from start?
          *
-         * Throws:  VFSInvalidPathException if pathInParent is not valid 
+         * Throws:  VFSInvalidPathException if pathInParent is not valid
          *          (contains '/' or "::").
          */
-        this(VFSDir parent, string pathInParent, 
+        this(VFSDir parent, string pathInParent,
              Flag!"writable" writable, Flag!"exists" exists)
         {
             enforce(noSeparators(pathInParent),
@@ -252,10 +252,10 @@ class MemoryFile : VFSFile
         ulong seekPosition_ = 0;
 
     public:
-        override @property ulong bytes() const 
+        override @property ulong bytes() const
         {
             enforce(buffer_ !is null,
-                    notFound("Trying to get size of MemoryFile ", path, 
+                    notFound("Trying to get size of MemoryFile ", path,
                               " that does not exist"));
             return buffer_.length;
         }
@@ -294,7 +294,7 @@ class MemoryFile : VFSFile
 
         override void[] read(void[] target)
         {
-            assert(mode_ == Mode.Read, 
+            assert(mode_ == Mode.Read,
                    "Trying to read from a file not opened for reading: " ~ path);
 
             const seek = cast(size_t)seekPosition_;
@@ -307,7 +307,7 @@ class MemoryFile : VFSFile
 
         override void write(in void[] data)
         {
-            assert(mode_ == Mode.Write || mode_ == Mode.Append, 
+            assert(mode_ == Mode.Write || mode_ == Mode.Append,
                    "Trying to write to a file not opened for writing/appending: " ~ path);
             assert(writable, "Trying to write to a non-writable file: " ~ path);
 
@@ -333,7 +333,7 @@ class MemoryFile : VFSFile
                               origin == Seek.Current ? seekPosition_ :
                                                        buffer_.length;
             const long position = base + offset;
-            enforce(position >= 0, 
+            enforce(position >= 0,
                     ioError("Trying to seek before the beginning of file: " ~ path));
             enforce(position <= buffer_.length,
                     ioError("Trying to seek beyond the end of file: " ~ path));
@@ -355,7 +355,7 @@ class MemoryFile : VFSFile
          * Params:  parent         = Parent directory.
          *          pathInParent = Path of the file in the parent directory (aka file name).
          *
-         * Throws:  VFSInvalidPathException if pathInParent is not valid 
+         * Throws:  VFSInvalidPathException if pathInParent is not valid
          *          (contains '/' or "::").
          */
         this(MemoryDir parent, string pathInParent)
