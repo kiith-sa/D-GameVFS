@@ -1,0 +1,16 @@
+{
+    "name": "dgamevfs",
+    "description": "Minimalist virtual file system for game development",
+    "copyright": "Copyright © 2012-2014, Ferdinand Majerech",
+    "authors": ["Ferdinand Majerech"],
+    "importPaths": ["source"],
+    "license": "Boost 1.0",
+    "homepage": "https://github.com/kiith-sa/D-GameVFS",
+
+    "buildTypes":
+    {
+        "debug": { "buildOptions": ["debugMode", "debugInfoC"] },
+        "release": { "buildOptions": ["releaseMode", "optimize", "inline", "noBoundsCheck"] },
+        "profile": { "buildOptions": ["releaseMode", "optimize", "noBoundsCheck", "debugInfoC"] },
+    },
+}

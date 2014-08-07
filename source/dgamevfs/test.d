@@ -750,8 +750,3 @@ unittest
             testFSDir() ? "SUCCESS" : "FAILURE",
             " FSDir unittest ", "----------");
 }
-
-void main()
-{
-    writeln("Done");
-}
