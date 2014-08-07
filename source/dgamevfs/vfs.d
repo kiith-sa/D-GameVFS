@@ -674,7 +674,7 @@ struct VFSFileInput
 
     private:
         //Due to a compiler bug, invariant segfaults - so using this instead.
-        void invariant_()
+        void invariant_() const
         {
             assert(isNull_ || (file_ !is null && file_.open),
                    "File worked on by VFSFileInput must be open during FileInput's lifetime");
@@ -818,7 +818,7 @@ struct VFSFileOutput
 
     private:
         //Due to a compiler bug(?), invariant segfaults - so using this instead.
-        void invariant_()
+        void invariant_() const
         {
             assert(isNull_ || (file_ !is null && file_.open),
                    "File worked on by VFSFileOutput must be open during VFSFileOutput's lifetime");
