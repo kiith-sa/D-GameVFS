@@ -104,14 +104,14 @@ class FSDir : VFSDir
             //Full physical path of the dir.
             const subdirPath = physicalPath_ ~ "/" ~ path;
             //Direct parent of requested dir - must exist for us to return the dir.
-            const dirPath = dirName(subdirPath);
+            const dirPath = subdirPath.dirName;
 
             enforce(.exists(dirPath),
-                    notFound("Trying to access directory ", baseName(subdirPath), 
+                    notFound("Trying to access directory ", subdirPath.baseName, 
                              " in filesystem directory with physical path ", dirPath, 
                              " that does not exist"));
-            enforce(isDir(dirPath),
-                    invalidPath("Trying to access file ", baseName(subdirPath), 
+            enforce(dirPath.isDir,
+                    invalidPath("Trying to access file ", subdirPath.baseName, 
                                 " in filesystem directory with physical path ", 
                                 dirPath, " that is not a directory"));
 
