@@ -11,5 +11,4 @@ public import dgamevfs.exceptions;
 public import dgamevfs.fs;
 public import dgamevfs.memory;
 public import dgamevfs.stack;
-public import dgamevfs.stream;
 public import dgamevfs.vfs;

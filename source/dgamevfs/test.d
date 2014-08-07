@@ -280,33 +280,6 @@ bool testVFSDirGlob(VFSDir root)
     return true;
 }
 
-bool testVFSStream(VFSFile file)
-{
-    {
-        auto output = VFSStream(file.output);
-
-        auto buf = "42\n"; 
-        output.writeExact(cast(void*)buf.ptr, buf.length);
-        output.writefln("%d * %d == %d", 6, 9, 42);
-    }
-    if(file.open){return false;}
-
-    {
-        auto input = VFSStream(file.input, file.bytes);
-
-        if(input.getc() != '4' || input.getc() != '2' || input.getc() != '\n')
-        {
-            return false;
-        }
-        auto line = input.readLine();
-        if(line != "6 * 9 == 42")     {return false;}
-        if(input.stream.available > 0){return false;}
-    }
-    if(file.open){return false;}
-
-    return true;
-}
-
 bool testVFSDirMain(VFSDir root)
 {
     //We expect these to be true from the start.
@@ -448,13 +421,6 @@ bool testVFSDirMain(VFSDir root)
             writeln("FAILED nonexistent directory");
             return false;
         }
-    }
-
-    //VFSStream:
-    if(!testVFSStream(root.file("stream")))
-    {
-        writeln("FAILED VFSStream");
-        return false;
     }
 
     return true;
