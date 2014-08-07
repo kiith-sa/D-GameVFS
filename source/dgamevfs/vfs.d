@@ -105,7 +105,7 @@ abstract class VFSDir
         @property bool writable() const;
 
         ///Does the directory exist?
-        @property bool exists() const;
+        @property bool exists() @safe const nothrow;
 
         /**
          * Get _file with specified _path in the directory.

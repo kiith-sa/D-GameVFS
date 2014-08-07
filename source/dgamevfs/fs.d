@@ -56,7 +56,11 @@ class FSDir : VFSDir
 
         override @property bool writable() const {return writable_;}
 
-        override @property bool exists() const {return .exists(physicalPath_);}
+        override @property bool exists() @safe const nothrow
+        {
+            try                { return .exists(physicalPath_); }
+            catch(Exception e) { assert(false, "std.file.exists() should never throw"); }
+        }
 
         override VFSFile file(string path)
         {

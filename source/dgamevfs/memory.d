@@ -64,7 +64,7 @@ class MemoryDir : VFSDir
             foreach(dir; subdirs_) {dir.writable = rhs;}
         }
 
-        override @property bool exists() const {return exists_;}
+        override @property bool exists() @safe pure const nothrow @nogc {return exists_;}
 
         override VFSFile file(string path)
         {
