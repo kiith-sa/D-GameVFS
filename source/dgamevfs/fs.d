@@ -50,6 +50,7 @@ class FSDir : VFSDir
          *                        explicitly.
          */
         this(string name, string physicalPath, Flag!"writable" writable = Yes.writable)
+            @safe
         {
             this(null, name, physicalPath, writable);
         }
@@ -89,7 +90,7 @@ class FSDir : VFSDir
             return new FSFile(this, path, filePath);
         }
 
-        override VFSDir dir(string path)
+        override VFSDir dir(string path) @trusted
         {
             enforce(isValidPath(path), invalidPath("Invalid physical directory path: ", path));
             enforce(noPackageSeparators(path), 
@@ -117,7 +118,7 @@ class FSDir : VFSDir
             return new FSDir(this, path, subdirPath, writable_);
         }
 
-        override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null)
+        override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null) @trusted
         {
             enforce(exists, 
                     notFound("Trying to access files of filesystem directory", path, 
@@ -142,7 +143,7 @@ class FSDir : VFSDir
             return filesRange(files);
         }
 
-        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null)
+        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null) @trusted
         {
             enforce(exists, 
                     notFound("Trying to access directories of filesystem directory", path, 
@@ -182,7 +183,7 @@ class FSDir : VFSDir
         }
 
     protected:
-        override void create_()
+        override void create_() @trusted
         {
             if(exists){return;}
             try
@@ -215,6 +216,7 @@ class FSDir : VFSDir
          */
         this(FSDir parent, string pathInParent, string physicalPath, 
              Flag!"writable" writable)
+            @trusted
         {
             physicalPath = cleanFSPath(physicalPath);
             pathInParent = cleanFSPath(pathInParent);
@@ -249,7 +251,7 @@ class FSFile : VFSFile
         string physicalPath_;
 
     public:
-        override @property ulong bytes() const 
+        override @property ulong bytes() @trusted const
         {
             enforce(exists,
                     notFound("Trying to get size of FSFile ", path, 
@@ -265,9 +267,16 @@ class FSFile : VFSFile
             }
         }
 
-        override @property bool exists() const {return .exists(physicalPath_);}
+        override @property bool exists() @safe const nothrow
+        {
+            try                { return .exists(physicalPath_); }
+            catch(Exception e) { assert(false, "std.file.exists() should never throw"); }
+        }
 
-        override @property bool open() const {return mode_ != Mode.Closed;}
+        override @property bool open() @safe pure nothrow const @nogc 
+        {
+            return mode_ != Mode.Closed;
+        }
 
     protected:
         override void openRead()

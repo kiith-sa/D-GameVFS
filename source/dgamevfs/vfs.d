@@ -536,7 +536,7 @@ abstract class VFSFile
 
     private:
         //Using this due invariant related compiler bugs.
-        void invariant_() const
+        void invariant_() @safe const nothrow
         {
             assert(noParent_ || parent_.exists,
                    "File with a nonexistent parent directory "
