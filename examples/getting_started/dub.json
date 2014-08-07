@@ -5,6 +5,6 @@
     "mainSourceFile": "main.d",
     "dependencies":
     {
-        "dgamevfs": { "version" : "~>0.2.0", "path" : "../.." },
+        "dgamevfs": { "version" : "~>0.2.0" },
     },
 }
