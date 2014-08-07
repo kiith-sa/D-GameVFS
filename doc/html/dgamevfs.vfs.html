@@ -100,22 +100,22 @@
 </pre>
 </div>
 
-<dl><dt class="d_decl"><a name="VFSDir.name"></a>final const pure @property string <a name="name"></a><span class="ddoc_psymbol">name</span>();
+<dl><dt class="d_decl"><a name="VFSDir.name"></a>final const pure nothrow @nogc @property @safe string <a name="name"></a><span class="ddoc_psymbol">name</span>();
 </dt>
 <dd><p>Get the name of this directory.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.path"></a>final const @property string <a name="path"></a><span class="ddoc_psymbol">path</span>();
+<dt class="d_decl"><a name="VFSDir.path"></a>final const pure nothrow @property @safe string <a name="path"></a><span class="ddoc_psymbol">path</span>();
 </dt>
 <dd><p>Get full path of this directory in the VFS.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.writable"></a>const @property bool <a name="writable"></a><span class="ddoc_psymbol">writable</span>();
+<dt class="d_decl"><a name="VFSDir.writable"></a>const pure nothrow @nogc @property @safe bool <a name="writable"></a><span class="ddoc_psymbol">writable</span>();
 </dt>
 <dd><p>Is it possible to write to the directory?</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.exists"></a>const @property bool <a name="exists"></a><span class="ddoc_psymbol">exists</span>();
+<dt class="d_decl"><a name="VFSDir.exists"></a>const nothrow @property @safe bool <a name="exists"></a><span class="ddoc_psymbol">exists</span>();
 </dt>
 <dd><p>Does the directory exist?</p>
 
@@ -141,7 +141,7 @@
 <b>Returns:</b><div class="pbr">File with specified path.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.dir"></a>VFSDir <a name="dir"></a><span class="ddoc_psymbol">dir</span>(string <b>path</b>);
+<dt class="d_decl"><a name="VFSDir.dir"></a>@safe VFSDir <a name="dir"></a><span class="ddoc_psymbol">dir</span>(string <b>path</b>);
 </dt>
 <dd><p>Get a subdirectory with specified path in the directory.
 </p>
@@ -162,7 +162,7 @@
 <b>Returns:</b><div class="pbr">Subdirectory with specified path.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.files"></a>VFSFiles <a name="files"></a><span class="ddoc_psymbol">files</span>(Flag!"<b>deep</b>" <b>deep</b> = No.<b>deep</b>, string <b>glob</b> = null);
+<dt class="d_decl"><a name="VFSDir.files"></a>@safe VFSFiles <a name="files"></a><span class="ddoc_psymbol">files</span>(Flag!"<b>deep</b>" <b>deep</b> = No.<b>deep</b>, string <b>glob</b> = null);
 </dt>
 <dd><p>Get a range of files in the directory.
 </p>
@@ -187,7 +187,7 @@
 <b>See Also:</b><div class="pbr"><a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">Wikipedia: glob (programming)</a></div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.dirs"></a>VFSDirs <a name="dirs"></a><span class="ddoc_psymbol">dirs</span>(Flag!"<b>deep</b>" <b>deep</b> = No.<b>deep</b>, string <b>glob</b> = null);
+<dt class="d_decl"><a name="VFSDir.dirs"></a>@safe VFSDirs <a name="dirs"></a><span class="ddoc_psymbol">dirs</span>(Flag!"<b>deep</b>" <b>deep</b> = No.<b>deep</b>, string <b>glob</b> = null);
 </dt>
 <dd><p>Get a range of subdirectories.
 </p>
@@ -210,14 +210,14 @@
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSNotFoundException</span> if the directory does not exist.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.create"></a>final void <a name="create"></a><span class="ddoc_psymbol">create</span>();
+<dt class="d_decl"><a name="VFSDir.create"></a>final @safe void <a name="create"></a><span class="ddoc_psymbol">create</span>();
 </dt>
 <dd><p>Create the directory if it does not exist (otherwise do nothing).
 </p>
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSIOException</span> if the directory could not be created.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.remove"></a>void <a name="remove"></a><span class="ddoc_psymbol">remove</span>();
+<dt class="d_decl"><a name="VFSDir.remove"></a>@system void <a name="remove"></a><span class="ddoc_psymbol">remove</span>();
 </dt>
 <dd><p>Remove the directory if it exists (otherwise do nothing).
 </p>
@@ -232,7 +232,7 @@ This will make any references to subdirectories or
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSIOException</span> if the directory could not be removed.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.this"></a>protected this(VFSDir <b>parent</b>, string <b>pathInParent</b>);
+<dt class="d_decl"><a name="VFSDir.this"></a>protected pure nothrow @nogc @safe this(VFSDir <b>parent</b>, string <b>pathInParent</b>);
 </dt>
 <dd><p>Constructor to initialize state common for <span class="d_inlinecode">VFSDir</span> implementations.
 </p>
@@ -243,32 +243,32 @@ This will make any references to subdirectories or
 </table></div>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.dirsRange"></a>protected static VFSDirs <a name="dirsRange"></a><span class="ddoc_psymbol">dirsRange</span>(VFSDirs.Items <b>dirs</b>);
+<dt class="d_decl"><a name="VFSDir.dirsRange"></a>protected static @safe VFSDirs <a name="dirsRange"></a><span class="ddoc_psymbol">dirsRange</span>(VFSDirs.Items <b>dirs</b>);
 </dt>
 <dd><p>Construct a range from a set of directories.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.filesRange"></a>protected static VFSFiles <a name="filesRange"></a><span class="ddoc_psymbol">filesRange</span>(VFSFiles.Items <b>files</b>);
+<dt class="d_decl"><a name="VFSDir.filesRange"></a>protected static @safe VFSFiles <a name="filesRange"></a><span class="ddoc_psymbol">filesRange</span>(VFSFiles.Items <b>files</b>);
 </dt>
 <dd><p>Construct a range from a set of files.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.composePath"></a>protected const string <a name="composePath"></a><span class="ddoc_psymbol">composePath</span>(const VFSDir <b>child</b>);
+<dt class="d_decl"><a name="VFSDir.composePath"></a>protected const pure nothrow @safe string <a name="composePath"></a><span class="ddoc_psymbol">composePath</span>(const VFSDir <b>child</b>);
 </dt>
 <dd><p>Compose path for a child directory. Used e.g. to allow <span class="d_inlinecode">StackDir</span> to set children's paths.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.create_"></a>protected void <a name="create_"></a><span class="ddoc_psymbol">create_</span>();
+<dt class="d_decl"><a name="VFSDir.create_"></a>protected @trusted void <a name="create_"></a><span class="ddoc_psymbol">create_</span>();
 </dt>
 <dd><p>Implementation of <span class="d_inlinecode">create()</span>. Caller contract guarantees that the directory is writable.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.copyWithoutParent"></a>protected VFSDir <a name="copyWithoutParent"></a><span class="ddoc_psymbol">copyWithoutParent</span>();
+<dt class="d_decl"><a name="VFSDir.copyWithoutParent"></a>protected @safe VFSDir <a name="copyWithoutParent"></a><span class="ddoc_psymbol">copyWithoutParent</span>();
 </dt>
 <dd><p>Return a copy of this VFSDir without a parent. Used for mounting.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSDir.getCopyWithoutParent"></a>protected final VFSDir <a name="getCopyWithoutParent"></a><span class="ddoc_psymbol">getCopyWithoutParent</span>(VFSDir <b>dir</b>);
+<dt class="d_decl"><a name="VFSDir.getCopyWithoutParent"></a>protected final @safe VFSDir <a name="getCopyWithoutParent"></a><span class="ddoc_psymbol">getCopyWithoutParent</span>(VFSDir <b>dir</b>);
 </dt>
 <dd><p>Access for derived classes to call copyWithoutParent() of other instances.</p>
 
@@ -309,17 +309,17 @@ This will make any references to subdirectories or
 <dd><p>Type used to store the items.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSRange.length"></a>const pure @property size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
+<dt class="d_decl"><a name="VFSRange.length"></a>const pure nothrow @nogc @property @safe size_t <a name="length"></a><span class="ddoc_psymbol">length</span>();
 </dt>
 <dd><p>Get number of items in the range.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSRange.popFront"></a>void <a name="popFront"></a><span class="ddoc_psymbol">popFront</span>();
+<dt class="d_decl"><a name="VFSRange.popFront"></a>pure nothrow @nogc @safe void <a name="popFront"></a><span class="ddoc_psymbol">popFront</span>();
 </dt>
 <dd><p>Pop the front element from the range.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSRange.popBack"></a>void <a name="popBack"></a><span class="ddoc_psymbol">popBack</span>();
+<dt class="d_decl"><a name="VFSRange.popBack"></a>pure nothrow @nogc @safe void <a name="popBack"></a><span class="ddoc_psymbol">popBack</span>();
 </dt>
 <dd><p>Pop the back element from the range.</p>
 
@@ -378,34 +378,34 @@ file.input.read(buffer);
 <dd><p>File mode (used by implementations);</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.name"></a>final const @property string <a name="name"></a><span class="ddoc_psymbol">name</span>();
+<dt class="d_decl"><a name="VFSFile.name"></a>final const nothrow @property @safe string <a name="name"></a><span class="ddoc_psymbol">name</span>();
 </dt>
 <dd><p>Get name of the file.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.path"></a>final const @property string <a name="path"></a><span class="ddoc_psymbol">path</span>();
+<dt class="d_decl"><a name="VFSFile.path"></a>final const nothrow @property @safe string <a name="path"></a><span class="ddoc_psymbol">path</span>();
 </dt>
 <dd><p>Get full path of the file in the VFS.</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.bytes"></a>const @property ulong <a name="bytes"></a><span class="ddoc_psymbol">bytes</span>();
+<dt class="d_decl"><a name="VFSFile.bytes"></a>const @property @safe ulong <a name="bytes"></a><span class="ddoc_psymbol">bytes</span>();
 </dt>
 <dd><p>Get file size in bytes.
 </p>
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSNotFoundException</span> if the file does not exist.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.exists"></a>const @property bool <a name="exists"></a><span class="ddoc_psymbol">exists</span>();
+<dt class="d_decl"><a name="VFSFile.exists"></a>const nothrow @property @safe bool <a name="exists"></a><span class="ddoc_psymbol">exists</span>();
 </dt>
 <dd><p>Does the file exist?</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.writable"></a>const @property bool <a name="writable"></a><span class="ddoc_psymbol">writable</span>();
+<dt class="d_decl"><a name="VFSFile.writable"></a>const nothrow @property @safe bool <a name="writable"></a><span class="ddoc_psymbol">writable</span>();
 </dt>
 <dd><p>Is it possible to write to this file?</p>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.open"></a>const @property bool <a name="open"></a><span class="ddoc_psymbol">open</span>();
+<dt class="d_decl"><a name="VFSFile.open"></a>const pure nothrow @nogc @property @safe bool <a name="open"></a><span class="ddoc_psymbol">open</span>();
 </dt>
 <dd><p>Is the file open?</p>
 
@@ -430,7 +430,7 @@ file.input.read(buffer);
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSIOException</span> if the file is not writable or is already open.</div>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.this"></a>protected this(VFSDir <b>parent</b>, string <b>pathInParent</b>);
+<dt class="d_decl"><a name="VFSFile.this"></a>protected nothrow @safe this(VFSDir <b>parent</b>, string <b>pathInParent</b>);
 </dt>
 <dd><p>Constructor to initialize state common for <span class="d_inlinecode">VFSFile</span> implementations.
 </p>
@@ -441,7 +441,7 @@ file.input.read(buffer);
 </table></div>
 
 </dd>
-<dt class="d_decl"><a name="VFSFile.this"></a>protected this(string <b>absolutePath</b>);
+<dt class="d_decl"><a name="VFSFile.this"></a>protected nothrow @safe this(string <b>absolutePath</b>);
 </dt>
 <dd><p>Constructor to initialize a <span class="d_inlinecode">VFSFile</span> without a parent.
 </p>
@@ -490,7 +490,7 @@ file.input.read(buffer);
 <dt class="d_decl"><a name="VFSFile.openReadProxy"></a>protected static void <a name="openReadProxy"></a><span class="ddoc_psymbol">openReadProxy</span>(VFSFile <b>file</b>);
 <br><a name="VFSFile.openWriteProxy"></a>protected static void <a name="openWriteProxy"></a><span class="ddoc_psymbol">openWriteProxy</span>(VFSFile <b>file</b>, Flag!"<b>append</b>" <b>append</b>);
 <br><a name="VFSFile.readProxy"></a>protected static void[] <a name="readProxy"></a><span class="ddoc_psymbol">readProxy</span>(VFSFile <b>file</b>, void[] <b>target</b>);
-<br><a name="VFSFile.writeProxy"></a>protected static void <a name="writeProxy"></a><span class="ddoc_psymbol">writeProxy</span>(VFSFile <b>file</b>, in void[] <b>data</b>);
+<br><a name="VFSFile.writeProxy"></a>protected static void <a name="writeProxy"></a><span class="ddoc_psymbol">writeProxy</span>(VFSFile <b>file</b>, const void[] <b>data</b>);
 <br><a name="VFSFile.seekProxy"></a>protected static void <a name="seekProxy"></a><span class="ddoc_psymbol">seekProxy</span>(VFSFile <b>file</b>, long <b>offset</b>, Seek <b>origin</b>);
 <br><a name="VFSFile.closeProxy"></a>protected static void <a name="closeProxy"></a><span class="ddoc_psymbol">closeProxy</span>(VFSFile <b>file</b>);
 </dt>

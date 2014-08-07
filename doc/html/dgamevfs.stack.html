@@ -118,7 +118,7 @@ stack.mount(user_data);
  the newest directory that is writable will be created.
  (This can happen when getting a nonexistent subdirectory of a <span class="d_inlinecode"><a name="StackDir"></a><span class="ddoc_psymbol">StackDir</span></span>.)</p>
 
-<dl><dt class="d_decl"><a name="StackDir.this"></a>this(string <b>name</b>);
+<dl><dt class="d_decl"><a name="StackDir.this"></a>pure @safe this(string <b>name</b>);
 </dt>
 <dd><p>Construct a  <span class="d_inlinecode">StackDir</span>.
 </p>
@@ -128,7 +128,7 @@ stack.mount(user_data);
 <b>Throws:</b><div class="pbr"><span class="d_inlinecode">VFSInvalidPathException</span> if <b>name</b> is not valid (contains '/' or "::").</div>
 
 </dd>
-<dt class="d_decl"><a name="StackDir.mount"></a>void <a name="mount"></a><span class="ddoc_psymbol">mount</span>(VFSDir <b>dir</b>);
+<dt class="d_decl"><a name="StackDir.mount"></a>@safe void <a name="mount"></a><span class="ddoc_psymbol">mount</span>(VFSDir <b>dir</b>);
 </dt>
 <dd><p>Mount a directory.
 </p>
