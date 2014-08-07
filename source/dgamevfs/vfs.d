@@ -243,10 +243,10 @@ abstract class VFSDir
 
     package:
         //Get the parent directory.
-        final @property VFSDir parent() {return parent_;}
+        final @property VFSDir parent() @safe pure nothrow @nogc {return parent_;}
 
         //Set the parent directory.
-        final @property void parent(VFSDir parent) {parent_ = parent;}
+        final @property void parent(VFSDir parent) @safe pure nothrow @nogc {parent_ = parent;}
 }
 
 /**
