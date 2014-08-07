@@ -172,7 +172,7 @@ class StackDir : VFSDir
             return new StackFile(this, path, stack);
         }
 
-        override VFSDir dir(string path)
+        override VFSDir dir(string path) @safe
         {
             enforce(exists, 
                     notFound("Trying to access subdirectory ", path, 
@@ -209,7 +209,7 @@ class StackDir : VFSDir
             return new StackDir(this, path, stack);
         }
 
-        override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null)
+        override VFSFiles files(Flag!"deep" deep = No.deep, string glob = null) @trusted
         {
             enforce(exists, 
                     notFound("Trying to access files of stack directory ", 
@@ -231,7 +231,7 @@ class StackDir : VFSDir
             return filesRange(files);
         }
 
-        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null)
+        override VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null) @trusted
         {
             enforce(exists, 
                     notFound("Trying to access subdirectories of stack directory ", 
@@ -269,7 +269,7 @@ class StackDir : VFSDir
          *          already mounted, or if dir has this directory as its child 
          *          or a child of any of its subdirectories (circular mounting).
          */ 
-        void mount(VFSDir dir)
+        void mount(VFSDir dir) @safe
         {
             enforce(!canFind!((a, b){return a.name == b.name;})(stack_, dir),
                     mountError("Could not mount directory ", dir.path, " to stacked "

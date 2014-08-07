@@ -139,7 +139,7 @@ abstract class VFSDir
          *
          * Returns: Subdirectory with specified _path.
          */
-        VFSDir dir(string path);
+        VFSDir dir(string path) @safe; //!pure //!nothrow //!@nogc
 
         /**
          * Get a range of _files in the directory.
@@ -161,7 +161,7 @@ abstract class VFSDir
          * See_also:
          * $(LINK2 http://en.wikipedia.org/wiki/Glob_%28programming%29,Wikipedia: _glob (programming))
          */
-        VFSFiles files(Flag!"deep" deep = No.deep, string glob = null);
+        VFSFiles files(Flag!"deep" deep = No.deep, string glob = null) @safe;
 
         /**
          * Get a range of subdirectories.
@@ -181,7 +181,7 @@ abstract class VFSDir
          *
          * Throws:  $(D VFSNotFoundException) if the directory does not exist.
          */
-        VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null);
+        VFSDirs dirs(Flag!"deep" deep = No.deep, string glob = null) @safe;
 
         /**
          * Create the directory if it does not exist (otherwise do nothing).
