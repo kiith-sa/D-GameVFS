@@ -296,16 +296,16 @@ struct VFSRange(T) if(is(T == VFSDir) || is(T == VFSFile))
         alias range_ this;
 
         //Destructor.
-        ~this()
+        @trusted ~this()
         {
             destroy(items_);
         }
 
         ///Get number of items in the range.
-        @property size_t length() const pure {return length_;}
+        @property size_t length() @safe pure nothrow const @nogc  {return length_;}
 
         ///Pop the front element from the range.
-        void popFront()
+        void popFront() @safe pure nothrow @nogc
         {
             assert(length_, "Trying to popFront from an empty VFSRange");
             --length_;
@@ -313,7 +313,7 @@ struct VFSRange(T) if(is(T == VFSDir) || is(T == VFSFile))
         }
 
         ///Pop the back element from the range.
-        void popBack()
+        void popBack() @safe pure nothrow @nogc
         {
             assert(length_, "Trying to popBack from an empty VFSRange");
             --length_;
@@ -322,7 +322,7 @@ struct VFSRange(T) if(is(T == VFSDir) || is(T == VFSFile))
 
     package:
         //Construct a VFSRange for specified items.
-        this(Items items)
+        this(Items items) @safe pure nothrow @nogc
         {
             items_ = items;
             length_ = items_.length;
