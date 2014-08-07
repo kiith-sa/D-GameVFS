@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
-<title>D:GameVFS 0.1</title>
+<title>D:GameVFS 0.2</title>
 <style type="text/css">
 
 /*
@@ -338,8 +338,8 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document" id="d-gamevfs-0-1">
-<h1 class="title">D:GameVFS 0.1</h1>
+<div class="document" id="d-gamevfs-0-2">
+<h1 class="title">D:GameVFS 0.2</h1>
 
 <div class="section" id="introduction">
 <h1>Introduction</h1>
@@ -357,7 +357,8 @@ compatibility breaking changes in future versions.</p>
 <h1>Features</h1>
 <ul class="simple">
 <li>File system independent, easy to use API for file/directory manipulation.</li>
-<li>Detailed API documentation with code examples.</li>
+<li>Detailed <a class="reference external" href="http://defenestrate.eu/docs/dgamevfs">API documentation</a> with code
+examples.</li>
 <li>No external dependencies.</li>
 <li>Seamless access to multiple directories as if they were a single directory.</li>
 <li>Easy to extend with custom file system backend.</li>
@@ -383,7 +384,8 @@ compatibility breaking changes in future versions.</p>
 <td>This README file, utility scripts.</td>
 </tr>
 <tr><td><tt class="docutils literal">./doc</tt></td>
-<td>Documentation.</td>
+<td>API documentation, also found
+<a class="reference external" href="http://defenestrate.eu/docs/dgamevfs">online</a></td>
 </tr>
 <tr><td><tt class="docutils literal">./source</tt></td>
 <td>Source code.</td>
@@ -499,6 +501,8 @@ also writable, so the data is written to <tt class="docutils literal">user_data/
 length. We determine how large buffer we need to read the entire file with the
 <em>VFSFile.bytes()</em> method. The buffer might also be larger than the file - <em>read()</em> reads
 as much data as available and returns the part of the buffer containing the read data.</p>
+<p>For more details about D:GameVFS API, see the
+<a class="reference external" href="http://defenestrate.eu/docs/dgamevfs">documentation</a>.</p>
 </div>
 <div class="section" id="compiling">
 <h2>Compiling</h2>

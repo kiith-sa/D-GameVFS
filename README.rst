@@ -1,5 +1,5 @@
 =============
-D:GameVFS 0.1
+D:GameVFS 0.2
 =============
 
 ------------
@@ -24,7 +24,8 @@ Features
 --------
 
 * File system independent, easy to use API for file/directory manipulation.
-* Detailed API documentation with code examples.
+* Detailed `API documentation <http://defenestrate.eu/docs/dgamevfs>`_ with code
+  examples.
 * No external dependencies.
 * Seamless access to multiple directories as if they were a single directory.
 * Easy to extend with custom file system backend.
@@ -41,7 +42,8 @@ Directory structure
 Directory        Contents
 ===============  =======================================================================
 ``./``           This README file, utility scripts.
-``./doc``        Documentation.
+``./doc``        API documentation, also found
+                 `online <http://defenestrate.eu/docs/dgamevfs>`_
 ``./source``     Source code.
 ``./examples``   Code examples.
 ===============  =======================================================================
@@ -175,6 +177,9 @@ In the end, we read the data back using the *VFSFileInput* class - input analog 
 length. We determine how large buffer we need to read the entire file with the
 *VFSFile.bytes()* method. The buffer might also be larger than the file - *read()* reads
 as much data as available and returns the part of the buffer containing the read data.
+
+For more details about D:GameVFS API, see the
+`documentation <http://defenestrate.eu/docs/dgamevfs>`_.
 
 
 ^^^^^^^^^
