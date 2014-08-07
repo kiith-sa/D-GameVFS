@@ -528,7 +528,7 @@ abstract class VFSFile
         ///Ditto
         static void[] readProxy(VFSFile file, void[] target){return file.read(target);}
         ///Ditto
-        static void writeProxy(VFSFile file, in void[] data){file.write(data);}
+        static void writeProxy(VFSFile file, const void[] data){file.write(data);}
         ///Ditto
         static void seekProxy(VFSFile file, long offset, Seek origin){file.seek(offset, origin);}
         ///Ditto
