@@ -4,7 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 
-//Utility functions used by D:GameVFS.
+// Utility functions used by D:GameVFS.
 module dgamevfs.util;
 
 
@@ -15,23 +15,23 @@ import std.path;
 import dgamevfs.exceptions;
 
 
-//Is a file/directory name valid (i.e. no directory or package separators)?
-bool noSeparators(string name) pure @trusted nothrow
+// Is a file/directory name valid (i.e. no directory or package separators)?
+bool noSeparators(string name) @trusted pure nothrow @nogc
 {
     return !name.canFind("/") && !name.canFind("::");
 }
 
-//Are there no package separators in the path?
-bool noPackageSeparators(string path) pure @trusted nothrow
+// Are there no package separators in the path?
+bool noPackageSeparators(string path) @trusted pure nothrow @nogc
 {
     return !path.canFind("::");
 }
 
-//Clean any leading "./" and trailing "/" from a filesystem path, and replace "\" by "/".
-string cleanFSPath(string path)
+// Clean any leading "./" and trailing "/" from a filesystem path, and replace "\" by "/".
+string cleanFSPath(string path) @trusted pure nothrow
 {
-    while(path.startsWith("./")){path = path[2 .. $];}
-    while(path.endsWith("/")){path = path[0 .. $ - 1];}
+    while(path.startsWith("./")) { path = path[2 .. $]; }
+    while(path.endsWith("/"))    { path = path[0 .. $ - 1]; }
     return path.replace("\\", "/");
 }
 
@@ -45,13 +45,13 @@ string cleanFSPath(string path)
  *
  * Returns: Package the path starts with, if any. null otherwise.
  */
-string expectPackage(string path, out string rest) pure @trusted nothrow
+string expectPackage(string path, out string rest) @trusted pure nothrow @nogc
 {
     auto parts = path.findSplit("::");
-    //No package separator.
-    if(parts[2].length == 0){return null;}
-    //Package separator, but in a subdir.
-    if(parts[0].canFind("/")){return null;}
+    // No package separator.
+    if(parts[2].length == 0)  { return null; }
+    // Package separator, but in a subdir.
+    if(parts[0].canFind("/")) { return null; }
 
     rest = parts[2];
     return parts[0];
@@ -69,12 +69,12 @@ string expectPackage(string path, out string rest) pure @trusted nothrow
  *
  * Throws:  VFSInvalidPathException if a package separator is found in the directory name.
  */
-string expectSubdir(string path, out string rest) @trusted
+string expectSubdir(string path, out string rest) @trusted pure
 {
     auto parts = path.findSplit("/");
-    //No directory separator.
-    if(parts[2].length == 0){return null;}
-    //Package separator in a directory name.
+    // No directory separator.
+    if(parts[2].length == 0) { return null; }
+    // Package separator in a directory name.
     if(parts[0].canFind("::"))
     {
         throw invalidPath("Unexpected package separator found in path: ", path);
@@ -83,6 +83,7 @@ string expectSubdir(string path, out string rest) @trusted
     rest = parts[2];
     return parts[0];
 }
+
 
 /**
  * Match path of a directory or a file relative to a parent directory with
@@ -94,9 +95,9 @@ string expectSubdir(string path, out string rest) @trusted
  *
  * Returns: True on match or if glob is null; false otherwise.
  */
-bool subPathMatch(string path, string parentPath, string glob) pure @safe
+bool subPathMatch(string path, string parentPath, string glob) @safe pure
 {
-    if(glob is null){return true;}
+    if(glob is null) { return true; }
     auto relative = path;
     relative.skipOver(parentPath);
     relative.skipOver("/");
