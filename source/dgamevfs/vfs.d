@@ -236,10 +236,13 @@ abstract class VFSDir
         void create_();
 
         ///Return a copy of this VFSDir without a parent. Used for mounting.
-        VFSDir copyWithoutParent();
+        VFSDir copyWithoutParent() @safe;
 
         ///Access for derived classes to call copyWithoutParent() of other instances.
-        final VFSDir getCopyWithoutParent(VFSDir dir){return dir.copyWithoutParent();};
+        final VFSDir getCopyWithoutParent(VFSDir dir) @safe
+        {
+            return dir.copyWithoutParent();}
+        ;
 
     package:
         //Get the parent directory.
@@ -399,14 +402,14 @@ abstract class VFSFile
 
     public:
         ///Get _name of the file.
-        final @property string name() const
+        final @property string name() @safe const nothrow
         {
             invariant_(); scope(exit){invariant_();}
             return pathInParent_;
         }
 
         ///Get full _path of the file in the VFS.
-        final @property string path() const
+        final @property string path() @safe const nothrow
         {
             invariant_(); scope(exit){invariant_();}
             return noParent_ ? pathInParent_ : (parent_.path ~ "/" ~ pathInParent_);
@@ -417,7 +420,7 @@ abstract class VFSFile
          *
          * Throws:  $(D VFSNotFoundException) if the file does not exist.
          */
-        @property ulong bytes() const;
+        @property ulong bytes() @safe const;
 
         ///Does the file exist?
         @property bool exists() @safe const nothrow;
