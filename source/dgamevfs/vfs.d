@@ -214,7 +214,7 @@ abstract class VFSDir
          * Params:  parent       = Parent directory. If null, this directory has no _parent.
          *          pathInParent = Path of the directory within the _parent.
          */
-        this(VFSDir parent, string pathInParent)
+        this(VFSDir parent, string pathInParent) @safe pure nothrow @nogc
         {
             parent_ = parent;
             pathInParent_ = pathInParent;

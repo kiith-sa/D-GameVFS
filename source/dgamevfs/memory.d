@@ -49,8 +49,8 @@ class MemoryDir : VFSDir
          *
          * Throws:  VFSInvalidPathException if name is not valid (contains '/' or "::").
          */
-        this(string name, Flag!"writable" writable = Yes.writable, 
-             Flag!"exists" exists = No.exists)
+        this(string name, Flag!"writable" writable = Yes.writable,
+             Flag!"exists" exists = No.exists) @safe pure
         {
             this(null, name, writable, exists);
         }
@@ -225,6 +225,7 @@ class MemoryDir : VFSDir
          */
         this(VFSDir parent, string pathInParent,
              Flag!"writable" writable, Flag!"exists" exists)
+            @safe pure
         {
             enforce(noSeparators(pathInParent),
                     invalidPath("Invalid directory name: ", pathInParent));
