@@ -54,7 +54,7 @@ class FSDir : VFSDir
             this(null, name, physicalPath, writable);
         }
 
-        override @property bool writable() const {return writable_;}
+        override @property bool writable() @safe pure nothrow const @nogc {return writable_;}
 
         override @property bool exists() @safe const nothrow
         {

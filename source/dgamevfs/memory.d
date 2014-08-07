@@ -55,7 +55,7 @@ class MemoryDir : VFSDir
             this(null, name, writable, exists);
         }
 
-        override @property bool writable() const {return writable_;}
+        override @property bool writable() @safe pure nothrow const @nogc {return writable_;}
 
         //Set whether this directory (and its subdirectories) should be writable or not.
         @property void writable(bool rhs) 

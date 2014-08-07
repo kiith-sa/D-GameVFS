@@ -102,7 +102,7 @@ abstract class VFSDir
         }
 
         ///Is it possible to write to the directory?
-        @property bool writable() const;
+        @property bool writable() @safe pure nothrow const @nogc;
 
         ///Does the directory exist?
         @property bool exists() @safe const nothrow;
