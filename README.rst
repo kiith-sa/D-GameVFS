@@ -2,6 +2,9 @@
 D:GameVFS 0.2
 =============
 
+.. image:: https://raw.githubusercontent.com/kiith-sa/D-GameVFS/master/code.dlang.org-shield.png
+   :target: http://code.dlang.org
+
 ------------
 Introduction
 ------------
