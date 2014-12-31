@@ -2,6 +2,7 @@
 D:GameVFS 0.2
 =============
 
+.. image:: https://travis-ci.org/kiith-sa/D-GameVFS.svg?branch=master
 .. image:: https://raw.githubusercontent.com/kiith-sa/D-GameVFS/master/code.dlang.org-shield.png
    :target: http://code.dlang.org
 
