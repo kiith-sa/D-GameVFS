@@ -12,7 +12,7 @@ module dgamevfs.exceptions;
 import std.conv;
 
 
-/// Parent class of all exceptions thrown at VFS errors. **BOLD** *ITALIC* `MONOSPACE`
+/// Parent class of all exceptions thrown at VFS errors.
 abstract class VFSException : Exception
 {
     public this(string msg, string file = __FILE__, int line = __LINE__) @safe pure nothrow
