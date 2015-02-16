@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>StackDir</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/stack.html>stack</a>.</small><span class="highlight">StackDir</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/stack.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/stack.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/stack.html">stack</a></span>
+</li>
+<li>dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public class StackDir : <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a>
+</code></pre>
+<div class="section ">A directory seamlessly working on a stack of multiple directories.
+
+</div>
+<div class="section">Directories can be mounted using the <code class="d_inlinecode">mount()</code> method.
+
+When looking for a file or directory in a <code class="d_inlinecode">StackDir</code>, the last directory
+is searched first, then the second last, and so on. This means that directories
+mounted later override those mounted before.
+
+
+
+</div>
+<div class="section"><h2>Example</h2>
+
+
+We have a directory called <i>data</i> with the following contents:
+<pre><code>shaders:
+    font.frag 
+    font.vert 
+logs:
+    (empty)
+main.cfg</code></pre>
+and a directory called <i>user_data</i> with the following contents:
+<pre><code>shaders: 
+     font.frag
+logs:
+     (empty)
+custom.cfg</code></pre>
+the following code will work as specified in the comments:
+<pre><code><a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> data, user_data; //initialized somewhere before
+
+auto stack = new <a href="dgamevfs/stack/StackDir.html">StackDir</a>("stack");
+stack.<a href="dgamevfs/stack/StackDir.html#mount">mount</a>(data);
+stack.<a href="dgamevfs/stack/StackDir.html#mount">mount</a>(user_data);
+
+//This will access user_data/shaders/font.frag
+auto frag = stack.file("shaders/font.frag");
+//This will access data/shaders/font.vert
+auto vert = stack.file("shaders/font.vert");
+//This will return a <a href="dgamevfs/stack/StackDir.html">StackDir</a> (as <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a>) with "data/logs" and "user_data/logs"
+//mounted, in that order:
+auto logs = stack.dir("logs");</code></pre>
+
+Accessing a file in a <code class="d_inlinecode">StackDir</code> will actually return a <code class="d_inlinecode">StackFile</code>,
+which decides which file to access on read, write and other operations.
+The <code class="d_inlinecode">StackFile</code> is a stack of all files that map to the same path in
+the <code class="d_inlinecode">StackDir</code> in the same order as <code class="d_inlinecode">StackDir</code>'s mounted directories.
+
+For example, when reading or determining file size, the directories in the 
+stack will be searched from newest to oldest and the first file found will 
+be used.
+
+When writing, the file in the newest writable directory will be written to.
+
+
+In some cases, it might be required to access a particular directory in the 
+stack. E.g. a game might have multiple packages stacked on top of each other,
+but sometimes default, non-overridden version of a file could be needed.
+This can be done using the <b>::</b> separator. 
+
+In the context of the previous example:
+
+<pre><code>//This will access data/shaders/font.frag even though user_data/shaders/font.frag exists
+auto default_frag = stack.file("data::shaders/font.frag");</code></pre>
+
+<code class="d_inlinecode">StackDir</code> is considered writable when any directory in the stack is writable.
+Similarly, it exists when any directory in the stack exists.
+
+When we have a <code class="d_inlinecode">StackDir</code> that does not exist and we <code class="d_inlinecode">create()</code> it,
+the newest directory that is writable will be created.
+(This can happen when getting a nonexistent subdirectory of a <code class="d_inlinecode">StackDir</code>.)
+
+</div>
+</div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>public this(string name) @safe pure
+</code></pre>
+<div class="section ">Construct a  <code class="d_inlinecode">StackDir</code>.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">name</td><td class="paramDoc">Name of the <code class="d_inlinecode">StackDir</code>.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSInvalidPathException</code> if name is not valid (contains '/' or "::").
+
+</div>
+</div></div><a class="anchor" id="mount"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/stack/StackDir.html#mount">mount</a>(<a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> dir) @safe
+</code></pre>
+<div class="section ">Mount a directory.
+
+</div>
+<div class="section">Files and directories of a directory mounted later will override
+those of a directory mounted earlier.
+
+If dir has a parent in the VFS, a parent-less copy will be created and 
+mounted. (This has no effect whatsoever on the underlying filesystem -
+it just removes the need for directories to have multiple parents).
+
+
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">dir</td><td class="paramDoc">Directory to _mount.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSMountException</code> if a directory with the same name is
+         already mounted, or if dir has this directory as its child 
+         or a child of any of its subdirectories (circular mounting).
+
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(
+    <a href="dgamevfs/stack/StackDir.html">StackDir</a> parent, 
+    string pathInParent, 
+    <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a>[] stack) @safe pure nothrow @nogc
+</code></pre>
+<div class="section ">Construct a stack directory as a subdirectory of parent.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">parent</td><td class="paramDoc">Parent directory.</td></tr>
+<tr class="param"><td class="paramName">pathInParent</td><td class="paramDoc">Path of the subdir in all directories of parent's stack.</td></tr>
+<tr class="param"><td class="paramName">stack</td><td class="paramDoc">Directory stack of the subdirectory.
+</td></tr>
+</table>
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="dgamevfs/stack/StackDir.html#this">this</a></td><td></td><td>Construct a  <code class="d_inlinecode">StackDir</code>.</td></tr><tr><td><a href="dgamevfs/stack/StackDir.html#mount">mount</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Mount a directory.</td></tr><tr><td><a href="dgamevfs/stack/StackDir.html#this">this</a></td><td></td><td>Construct a stack directory as a subdirectory of parent.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

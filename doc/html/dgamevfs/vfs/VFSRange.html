@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>VFSRange</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/vfs.html>vfs</a>.</small><span class="highlight">VFSRange</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/vfs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/vfs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></span>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public struct VFSRange(T)
+if(is(T == <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a>) || is(T == <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>))
+</code></pre>
+<div class="section ">A bidirectional range of VFS items (files or directories).
+
+</div>
+<div class="section"><h2>Examples</h2>
+
+<pre><code>//<a href="dgamevfs/vfs.html#VFSDirs">VFSDirs</a> is a <a href="dgamevfs/vfs/VFSRange.html">VFSRange</a> of directories - <a href="dgamevfs/vfs.html#VFSFiles">VFSFiles</a> of files.
+<a href="dgamevfs/vfs.html#VFSDirs">VFSDirs</a> dirs;
+
+//Get the first directory.
+auto f = dirs.front;
+
+//Get the last directory.
+auto b = dirs.back;
+
+//Remove the first directory from the range (this will not remove the directory itself).
+dirs.<a href="dgamevfs/vfs/VFSRange.html#popFront">popFront</a>();
+
+//Remove the last directory from the range (this will not remove the directory itself).
+dirs.<a href="dgamevfs/vfs/VFSRange.html#popBack">popBack</a>();
+
+//Are there no files/directories ?
+bool empty = r.empty;</code></pre>
+
+</div>
+</div><a class="anchor" id="compare"></a><div class="symbol"><div class="description"><pre><code>public static <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSRange.html#compare">compare</a>(
+    T a, 
+    T b)
+</code></pre>
+<div class="section ">Function used to _compare items alphabetically.
+
+</div>
+</div></div><a class="anchor" id="Items"></a><div class="symbol"><div class="description"><pre><code>alias Items = RedBlackTree!(T, <a href="dgamevfs/vfs/VFSRange.html#compare">compare</a>, false)
+</code></pre>
+<div class="section ">Type used to store the items.
+
+</div>
+</div></div><a class="anchor" id="length"></a><div class="symbol"><div class="description"><pre><code>public @property size_t <a href="dgamevfs/vfs/VFSRange.html#length">length</a>() @safe pure nothrow const @nogc
+</code></pre>
+<div class="section ">Get number of items in the range.
+
+</div>
+</div></div><a class="anchor" id="popFront"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSRange.html#popFront">popFront</a>() @safe pure nothrow @nogc
+</code></pre>
+<div class="section ">Pop the front element from the range.
+
+</div>
+</div></div><a class="anchor" id="popBack"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSRange.html#popBack">popBack</a>() @safe pure nothrow @nogc
+</code></pre>
+<div class="section ">Pop the back element from the range.
+
+</div>
+</div></div><div class="section members"><h2>Aliases</h2><table><tr><td><a href="dgamevfs/vfs/VFSRange.html#Items">Items</a></td><td><pre><code>RedBlackTree!(T, <a href="dgamevfs/vfs/VFSRange.html#compare">compare</a>, false)
+</code></pre>
+</td><td>Type used to store the items.</td></tr></table><h2>Functions</h2><table><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSRange.html#compare">compare</a><span class="extrainfo"></span></td><td></td><td>Function used to _compare items alphabetically.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSRange.html#length">length</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-const">const</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Get number of items in the range.</td></tr><tr><td><a href="dgamevfs/vfs/VFSRange.html#popFront">popFront</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Pop the front element from the range.</td></tr><tr><td><a href="dgamevfs/vfs/VFSRange.html#popBack">popBack</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Pop the back element from the range.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

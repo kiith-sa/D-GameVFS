@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>VFSFileInput</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/vfs.html>vfs</a>.</small><span class="highlight">VFSFileInput</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/vfs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/vfs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></span>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public struct VFSFileInput
+</code></pre>
+<div class="section ">Provides basic file input functionality - seeking and reading.
+
+</div>
+<div class="section"><code class="d_inlinecode">VFSFileInput</code> uses reference counting so that the file is closed
+when the last instance of <code class="d_inlinecode">VFSFileInput</code> provided by the file is destroyed.
+
+
+
+</div>
+<div class="section"><h2>Examples</h2>
+
+<pre><code><a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file; //initialized somewhere before
+
+auto input = file.input;
+with(input)
+{
+    auto buffer = new ubyte[32];
+
+    //Read the first 32 bytes from the file:
+    <a href="dgamevfs/vfs/VFSFileInput.html#read">read</a>(buffer);
+
+    //Read the next 32 bytes:
+    <a href="dgamevfs/vfs/VFSFileInput.html#read">read</a>(buffer);
+
+    //Read the last 32 bytes in the file:
+    <a href="dgamevfs/vfs/VFSFileInput.html#seek">seek</a>(-32, file);
+    <a href="dgamevfs/vfs/VFSFileInput.html#read">read</a>(buffer);
+}</code></pre>
+
+</div>
+</div><a class="anchor" id="read"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a>[] <a href="dgamevfs/vfs/VFSFileInput.html#read">read</a>(<a href="http://dlang.org/type.html#basic-data-types">void</a>[] target)
+</code></pre>
+<div class="section ">Read at most <code class="d_inlinecode">target.length</code> bytes starting at current file position to target.
+
+</div>
+<div class="section">If the file does not have enough bytes to fill target or a _reading
+error is encountered, it reads as much data as possible and returns
+the part of target containing the _read data.
+
+
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">target</td><td class="paramDoc">Buffer to _read to.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Returns</h2>
+ Slice of _target containing the read data.
+
+</div>
+</div></div><a class="anchor" id="seek"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFileInput.html#seek">seek</a>(
+    <a href="http://dlang.org/type.html#basic-data-types">long</a> offset, 
+    <a href="dgamevfs/vfs/Seek.html">Seek</a> origin)
+</code></pre>
+<div class="section ">Set file position to offset bytes from specified origin.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">offset</td><td class="paramDoc">Number of bytes to set file position relative to origin.</td></tr>
+<tr class="param"><td class="paramName">origin</td><td class="paramDoc">Position to which offset is added.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if trying to _seek before the beginning or beyond
+         the end of file.
+
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="dgamevfs/vfs/VFSFileInput.html#read">read</a><span class="extrainfo"></span></td><td></td><td>Read at most <code class="d_inlinecode">target.length</code> bytes starting at current file position to target.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFileInput.html#seek">seek</a><span class="extrainfo"></span></td><td></td><td>Set file position to offset bytes from specified origin.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

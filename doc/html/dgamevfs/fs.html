@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../style.css"/>
+<script src="../highlight.pack.js"></script>
+<title>dgamevfs.fs</title>
+<base href="../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.fs</small>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/fs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/fs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/fs.html">fs</a></span>
+</li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li>dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><a class="anchor" id="physicalFSFile"></a><div class="symbol"><div class="description"><pre><code>public <a href="dgamevfs/fs/FSFile.html">FSFile</a> <a href="dgamevfs/fs.html#physicalFSFile">physicalFSFile</a>(string path)
+</code></pre>
+<div class="section ">Construct a plain file, not using the VFS.
+
+</div>
+<div class="section">/// Allows to use the D:GameVFS API for standalone files.
+
+/// Params:  path = Path of the file in the physical filesystem.
+
+/// Throws:  VFSInvalidPathException if the path is not valid.
+
+</div>
+</div></div><div class="description"></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="dgamevfs/fs.html#physicalFSFile">physicalFSFile</a><span class="extrainfo"></span></td><td></td><td>Construct a plain file, not using the VFS.</td></tr></table><h2>Classes</h2><table><tr><td><a href="dgamevfs/fs/FSDir.html">FSDir</a></td><td></td><td>Directory in the physical filesystem.</td></tr><tr><td><a href="dgamevfs/fs/FSFile.html">FSFile</a></td><td></td><td><code class="d_inlinecode">VFSFile</code> implementation representing a file in the file system.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

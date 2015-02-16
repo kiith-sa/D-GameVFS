@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>FSDir</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/fs.html>fs</a>.</small><span class="highlight">FSDir</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/fs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/fs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/fs.html">fs</a></span>
+</li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li>dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public class FSDir : <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a>
+</code></pre>
+<div class="section ">Directory in the physical filesystem.
+
+</div>
+<div class="section">Note that paths behave as in the backend filesystem.
+
+For example, if you are working with Windows, paths are not case sensitive.
+
+</div>
+</div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>public this(
+    string name, 
+    string physicalPath, 
+    Flag!"writable" writable = Yes.writable) @safe
+</code></pre>
+<div class="section ">Construct an <code class="d_inlinecode">FSDir</code>.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">name</td><td class="paramDoc">Name of the directory in the VFS.</td></tr>
+<tr class="param"><td class="paramName">physicalPath</td><td class="paramDoc">Path of the directory in the physical filesystem.</td></tr>
+<tr class="param"><td class="paramName">writable</td><td class="paramDoc">Is this directory _writable? <code class="d_inlinecode">FSDir</code> can't determine whether you have permission to write in a directory - you must specify this  explicitly.
+</td></tr>
+</table>
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="dgamevfs/fs/FSDir.html#this">this</a></td><td></td><td>Construct an <code class="d_inlinecode">FSDir</code>.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

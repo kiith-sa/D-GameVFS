@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>StackFile</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/stack.html>stack</a>.</small><span class="highlight">StackFile</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/stack.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/stack.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/stack.html">stack</a></span>
+</li>
+<li>dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public class StackFile : <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>
+</code></pre>
+<div class="section ">A file seamlessly working on a stack of multiple files.
+
+</div>
+<div class="section">This is the file implementation returned by  <code class="d_inlinecode">StackDir</code> methods.
+
+It has one file from each directory in the  <code class="d_inlinecode">StackDir</code> - all of these
+files map to the same path in the <code class="d_inlinecode">StackDir</code>.
+
+When reading from <code class="d_inlinecode">StackFile</code>, it will read from the newest file
+in the stack that exists.
+
+When writing, it will write to the newest file that is writable
+regardless of whether it already exists or not.
+
+</div>
+</div><a class="anchor" id="stack_"></a><div class="symbol"><div class="description"><pre><code>private <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>[] stack_
+</code></pre>
+<div class="section ">File stack.
+
+</div>
+</div></div><a class="anchor" id="openFile_"></a><div class="symbol"><div class="description"><pre><code>private <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> openFile_
+</code></pre>
+<div class="section ">Currently open file, if any.
+
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>private this(
+    <a href="dgamevfs/stack/StackDir.html">StackDir</a> parent, 
+    string pathInParent, 
+    <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>[] stack)
+</code></pre>
+<div class="section ">Construct a <code class="d_inlinecode">StackFile</code>.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">parent</td><td class="paramDoc">Parent directory of the file.</td></tr>
+<tr class="param"><td class="paramName">pathInParent</td><td class="paramDoc">Path of the file within the parent directory.</td></tr>
+<tr class="param"><td class="paramName">stack</td><td class="paramDoc">File stack.
+</td></tr>
+</table>
+</div>
+</div></div><div class="section members"><h2>Variables</h2><table><tr><td><a href="dgamevfs/stack/StackFile.html#stack_">stack_</a></td><td><pre><code><a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>[]
+</code></pre>
+</td><td>File stack.</td></tr><tr><td><a href="dgamevfs/stack/StackFile.html#openFile_">openFile_</a></td><td><pre><code><a href="dgamevfs/vfs/VFSFile.html">VFSFile</a>
+</code></pre>
+</td><td>Currently open file, if any.</td></tr></table><h2>Functions</h2><table><tr><td><a href="dgamevfs/stack/StackFile.html#this">this</a></td><td></td><td>Construct a <code class="d_inlinecode">StackFile</code>.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>VFSFile</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/vfs.html>vfs</a>.</small><span class="highlight">VFSFile</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/vfs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/vfs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></span>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public abstract class VFSFile
+</code></pre>
+<div class="section ">A file in the VFS.
+
+</div>
+<div class="section">Provides basic file information and access to I/O.
+
+File names in the VFS can contain any characters except <b>/</b>,
+which is used as directory separator, and the <b>::</b> sequence, which is
+used for explicit package lookup (see  <code class="d_inlinecode">StackDir</code>).
+
+
+
+</div>
+<div class="section"><h2>Examples</h2>
+
+<pre><code><a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> dir = new <a href="dgamevfs/fs/FSDir.html">FSDir</a>("main", "./user_data/main", Yes.<a href="dgamevfs/vfs/VFSFile.html#writable">writable</a>);
+
+//Get the file from a directory.
+<a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file = dir.file("logs/memory.log");
+
+//Print information about the file (note that we can only get file size of an existing file):
+writeln("<a href="dgamevfs/vfs/VFSFile.html#name">name</a>: ", file.<a href="dgamevfs/vfs/VFSFile.html#name">name</a>, ", full <a href="dgamevfs/vfs/VFSFile.html#path">path</a>: ", file.<a href="dgamevfs/vfs/VFSFile.html#path">path</a>,
+        ", <a href="dgamevfs/vfs/VFSFile.html#writable">writable</a>: ", file.<a href="dgamevfs/vfs/VFSFile.html#writable">writable</a>, ", <a href="dgamevfs/vfs/VFSFile.html#exists">exists</a>: ", file.<a href="dgamevfs/vfs/VFSFile.html#exists">exists</a>,
+        ", size in <a href="dgamevfs/vfs/VFSFile.html#bytes">bytes</a>: ", file.<a href="dgamevfs/vfs/VFSFile.html#bytes">bytes</a>);
+
+//Get access to <a href="dgamevfs/vfs/VFSFile.html#read">read</a> from the file:
+auto <a href="dgamevfs/vfs/VFSFile.html#input">input</a> = file.<a href="dgamevfs/vfs/VFSFile.html#input">input</a>;
+
+//Simply <a href="dgamevfs/vfs/VFSFile.html#read">read</a> the file to a buffer:
+auto buffer = new ubyte[file.<a href="dgamevfs/vfs/VFSFile.html#bytes">bytes</a>];
+file.<a href="dgamevfs/vfs/VFSFile.html#input">input</a>.<a href="dgamevfs/vfs/VFSFile.html#read">read</a>(buffer);
+
+//Get access to <a href="dgamevfs/vfs/VFSFile.html#write">write</a> to the file:
+auto <a href="dgamevfs/vfs/VFSFile.html#output">output</a> = file.<a href="dgamevfs/vfs/VFSFile.html#output">output</a>;
+
+//Simply <a href="dgamevfs/vfs/VFSFile.html#write">write</a> a buffer to the file:
+file.<a href="dgamevfs/vfs/VFSFile.html#output">output</a>.<a href="dgamevfs/vfs/VFSFile.html#write">write</a>(cast(const void[])"The answer is 42");</code></pre>
+
+</div>
+</div><a class="anchor" id="name"></a><div class="symbol"><div class="description"><pre><code>public final @property string <a href="dgamevfs/vfs/VFSFile.html#name">name</a>() @safe const nothrow
+</code></pre>
+<div class="section ">Get _name of the file.
+
+</div>
+</div></div><a class="anchor" id="path"></a><div class="symbol"><div class="description"><pre><code>public final @property string <a href="dgamevfs/vfs/VFSFile.html#path">path</a>() @safe const nothrow
+</code></pre>
+<div class="section ">Get full _path of the file in the VFS.
+
+</div>
+</div></div><a class="anchor" id="bytes"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">ulong</a> <a href="dgamevfs/vfs/VFSFile.html#bytes">bytes</a>() @safe const
+</code></pre>
+<div class="section ">Get file size in _bytes.
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSNotFoundException</code> if the file does not exist.
+
+</div>
+</div></div><a class="anchor" id="exists"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSFile.html#exists">exists</a>() @safe const nothrow
+</code></pre>
+<div class="section ">Does the file exist?
+
+</div>
+</div></div><a class="anchor" id="writable"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSFile.html#writable">writable</a>() @safe const nothrow
+</code></pre>
+<div class="section ">Is it possible to write to this file?
+
+</div>
+</div></div><a class="anchor" id="open"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSFile.html#open">open</a>() @safe pure nothrow const @nogc
+</code></pre>
+<div class="section ">Is the file _open?
+
+</div>
+</div></div><a class="anchor" id="input"></a><div class="symbol"><div class="description"><pre><code>public final @property <a href="dgamevfs/vfs/VFSFileInput.html">VFSFileInput</a> <a href="dgamevfs/vfs/VFSFile.html#input">input</a>()
+</code></pre>
+<div class="section ">Open the file and get reading access.
+
+</div>
+<div class="section"><h2>Returns</h2>
+ <code class="d_inlinecode">VFSFileInput</code> providing _input access to the file.
+
+
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if the file does not exist or is already open.
+
+</div>
+</div></div><a class="anchor" id="output"></a><div class="symbol"><div class="description"><pre><code>public final @property <a href="dgamevfs/vfs/VFSFileOutput.html">VFSFileOutput</a> <a href="dgamevfs/vfs/VFSFile.html#output">output</a>(Flag!"append" append = No.append)
+</code></pre>
+<div class="section ">Open the file and get writing access. Must not already be open.
+
+</div>
+<div class="section"><h2>Returns</h2>
+ <code class="d_inlinecode">VFSFileOutput</code> providing _output access to the file.
+
+
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if the file is not writable or is already open.
+
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>protected this(
+    <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> parent, 
+    string pathInParent) @safe nothrow
+</code></pre>
+<div class="section ">Constructor to initialize state common for <code class="d_inlinecode">VFSFile</code> implementations.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">parent</td><td class="paramDoc">Parent directory. Must not be null.</td></tr>
+<tr class="param"><td class="paramName">pathInParent</td><td class="paramDoc">Path of the file within the _parent.
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>protected this(string absolutePath) @safe nothrow
+</code></pre>
+<div class="section ">Constructor to initialize a <code class="d_inlinecode">VFSFile</code> without a parent.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">noParent</td><td class="paramDoc">Parent directory. Must not be null.</td></tr>
+<tr class="param"><td class="paramName">pathInParent</td><td class="paramDoc">Path of the file within the _parent.
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="openRead"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#openRead">openRead</a>()
+</code></pre>
+<div class="section ">Open the file for reading.
+
+</div>
+</div></div><a class="anchor" id="openWrite"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#openWrite">openWrite</a>(Flag!"append" append)
+</code></pre>
+<div class="section ">Open the file for writing/appending.
+
+</div>
+</div></div><a class="anchor" id="read"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a>[] <a href="dgamevfs/vfs/VFSFile.html#read">read</a>(<a href="http://dlang.org/type.html#basic-data-types">void</a>[] target)
+</code></pre>
+<div class="section ">Read up to <code class="d_inlinecode">target.length</code> bytes to target from current file position.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">target</td><td class="paramDoc">Buffer to _read to.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Returns</h2>
+ Slice of _target containing the read data.
+
+</div>
+</div></div><a class="anchor" id="write"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#write">write</a>(in <a href="http://dlang.org/type.html#basic-data-types">void</a>[] data)
+</code></pre>
+<div class="section ">Write <code class="d_inlinecode">data.length</code> bytes to file from current file position.
+
+</div>
+</div></div><a class="anchor" id="seek"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#seek">seek</a>(
+    <a href="http://dlang.org/type.html#basic-data-types">long</a> offset, 
+    <a href="dgamevfs/vfs/Seek.html">Seek</a> origin)
+</code></pre>
+<div class="section ">Seek offset bytes from origin within the file.
+
+</div>
+</div></div><a class="anchor" id="close"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#close">close</a>()
+</code></pre>
+<div class="section ">Close the file, finalizing any file operations.
+
+</div>
+</div></div><a class="anchor" id="openReadProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#openReadProxy">openReadProxy</a>(<a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><a class="anchor" id="openWriteProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#openWriteProxy">openWriteProxy</a>(
+    <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file, 
+    Flag!"append" append)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><a class="anchor" id="readProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a>[] <a href="dgamevfs/vfs/VFSFile.html#readProxy">readProxy</a>(
+    <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file, 
+    <a href="http://dlang.org/type.html#basic-data-types">void</a>[] target)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><a class="anchor" id="writeProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#writeProxy">writeProxy</a>(
+    <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file, 
+    const <a href="http://dlang.org/type.html#basic-data-types">void</a>[] data)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><a class="anchor" id="seekProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#seekProxy">seekProxy</a>(
+    <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file, 
+    <a href="http://dlang.org/type.html#basic-data-types">long</a> offset, 
+    <a href="dgamevfs/vfs/Seek.html">Seek</a> origin)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><a class="anchor" id="closeProxy"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFile.html#closeProxy">closeProxy</a>(<a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file)
+</code></pre>
+<div class="section ">Proxies to for derived VFSFiles to call protected members of other VFSFiles.
+
+</div>
+</div></div><div class="section members"><h2>Enums</h2><table><tr><td><a href="dgamevfs/vfs/VFSFile.Mode.html">Mode</a></td><td></td><td>File mode (used by implementations);</td></tr></table><h2>Functions</h2><table><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#name">name</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Get _name of the file.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#path">path</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Get full _path of the file in the VFS.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#bytes">bytes</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span></span></span></td><td></td><td>Get file size in _bytes.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#exists">exists</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Does the file exist?</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#writable">writable</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Is it possible to write to this file?</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#open">open</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-const">const</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Is the file _open?</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#input">input</a><span class="extrainfo"></span></td><td></td><td>Open the file and get reading access.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSFile.html#output">output</a><span class="extrainfo"></span></td><td></td><td>Open the file and get writing access. Must not already be open.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#this">this</a></td><td></td><td>Constructor to initialize state common for <code class="d_inlinecode">VFSFile</code> implementations.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#this">this</a></td><td></td><td>Constructor to initialize a <code class="d_inlinecode">VFSFile</code> without a parent.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#openRead">openRead</a><span class="extrainfo"></span></td><td></td><td>Open the file for reading.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#openWrite">openWrite</a><span class="extrainfo"></span></td><td></td><td>Open the file for writing/appending.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#read">read</a><span class="extrainfo"></span></td><td></td><td>Read up to <code class="d_inlinecode">target.length</code> bytes to target from current file position.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#write">write</a><span class="extrainfo"></span></td><td></td><td>Write <code class="d_inlinecode">data.length</code> bytes to file from current file position.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#seek">seek</a><span class="extrainfo"></span></td><td></td><td>Seek offset bytes from origin within the file.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFile.html#close">close</a><span class="extrainfo"></span></td><td></td><td>Close the file, finalizing any file operations.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#openReadProxy">openReadProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#openWriteProxy">openWriteProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#readProxy">readProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#writeProxy">writeProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#seekProxy">seekProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSFile.html#closeProxy">closeProxy</a><span class="extrainfo"></span></td><td></td><td>Proxies to for derived VFSFiles to call protected members of other VFSFiles.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

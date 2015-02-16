@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>VFSDir</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/vfs.html>vfs</a>.</small><span class="highlight">VFSDir</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/vfs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/vfs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></span>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public abstract class VFSDir
+</code></pre>
+<div class="section ">A directory in the VFS.
+
+</div>
+<div class="section">Provides basic directory information and access to files and
+subdirectories within the directory.
+
+Directory names in the VFS can contain any characters except <b>/</b>,
+which is used as directory separator, and the <b>::</b> sequence, which is
+used for explicit package lookup (see  <code class="d_inlinecode">StackDir</code>).
+
+
+
+</div>
+<div class="section"><h2>Examples</h2>
+
+<pre><code>//Construct the directory (ordinary physical <a href="dgamevfs/vfs/VFSDir.html#file">file</a> system directory in <a href="dgamevfs/vfs/VFSDir.html#this">this</a> case):
+<a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a> = new <a href="dgamevfs/fs/FSDir.html">FSDir</a>("main", "./user_data/main", Yes.<a href="dgamevfs/vfs/VFSDir.html#writable">writable</a>);
+
+//Print information about the directory:
+writeln("<a href="dgamevfs/vfs/VFSDir.html#name">name</a>: ", <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#name">name</a>,
+        ", full <a href="dgamevfs/vfs/VFSDir.html#path">path</a>: ", <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>,
+        ", <a href="dgamevfs/vfs/VFSDir.html#writable">writable</a>: ", <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#writable">writable</a>,
+        ", <a href="dgamevfs/vfs/VFSDir.html#exists">exists</a>: ", <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#exists">exists</a>);
+
+//Access a <a href="dgamevfs/vfs/VFSDir.html#file">file</a>. If it does not exist, it will be created when writing:
+auto <a href="dgamevfs/vfs/VFSDir.html#file">file</a> = <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#file">file</a>("logs/memory.log");
+
+//Access a subdirectory:
+auto shaders = <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>("shaders");
+
+//Create a subdirectory. If the directory <a href="dgamevfs/vfs/VFSDir.html#exists">exists</a>, nothing happens (no error):
+auto shaders = <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>("does_not_exist").<a href="dgamevfs/vfs/VFSDir.html#create">create</a>();
+
+
+//<a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a>() and <a href="dgamevfs/vfs/VFSDir.html#files">files</a>() methods can be used to get ranges of <a href="dgamevfs/vfs/VFSDir.html#files">files</a> and subdirectories:
+
+//Print paths of all immediate subdirectories and their <a href="dgamevfs/vfs/VFSDir.html#files">files</a>:
+foreach(subdir; <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a>())
+{
+    writeln(<a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>, ":");
+    foreach(<a href="dgamevfs/vfs/VFSDir.html#file">file</a>; subdir.<a href="dgamevfs/vfs/VFSDir.html#files">files</a>())
+    {
+        writeln("    ", <a href="dgamevfs/vfs/VFSDir.html#file">file</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>);
+    }
+}
+
+//Print paths of all subdirectories and their subdirectories, etc. recursively:
+foreach(subdir; <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a>(Yes.deep))
+{
+    writeln(<a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>);
+}
+
+//Glob patterns can be used to filter the results:
+
+//Print paths of all immediate subdirectories with paths containg "doc":
+foreach(subdir; <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a>(No.deep, "*doc*"))
+{
+    writeln(<a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>);
+}
+
+//Print paths of all <a href="dgamevfs/vfs/VFSDir.html#files">files</a> in the directory and in subdirectories with paths ending with ".txt":
+foreach(<a href="dgamevfs/vfs/VFSDir.html#file">file</a>; <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>.<a href="dgamevfs/vfs/VFSDir.html#files">files</a>(Yes.deep, "*.txt"))
+{
+    writeln(<a href="dgamevfs/vfs/VFSDir.html#file">file</a>.<a href="dgamevfs/vfs/VFSDir.html#path">path</a>);
+}</code></pre>
+
+</div>
+</div><a class="anchor" id="name"></a><div class="symbol"><div class="description"><pre><code>public final @property string <a href="dgamevfs/vfs/VFSDir.html#name">name</a>() @safe const pure nothrow @nogc
+</code></pre>
+<div class="section ">Get the _name of this directory.
+
+</div>
+</div></div><a class="anchor" id="path"></a><div class="symbol"><div class="description"><pre><code>public final @property string <a href="dgamevfs/vfs/VFSDir.html#path">path</a>() @safe const pure nothrow
+</code></pre>
+<div class="section ">Get full _path of this directory in the VFS.
+
+</div>
+</div></div><a class="anchor" id="writable"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSDir.html#writable">writable</a>() @safe pure nothrow const @nogc
+</code></pre>
+<div class="section ">Is it possible to write to the directory?
+
+</div>
+</div></div><a class="anchor" id="exists"></a><div class="symbol"><div class="description"><pre><code>public @property <a href="http://dlang.org/type.html#basic-data-types">bool</a> <a href="dgamevfs/vfs/VFSDir.html#exists">exists</a>() @safe const nothrow
+</code></pre>
+<div class="section ">Does the directory exist?
+
+</div>
+</div></div><a class="anchor" id="file"></a><div class="symbol"><div class="description"><pre><code>public <a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> <a href="dgamevfs/vfs/VFSDir.html#file">file</a>(string path)
+</code></pre>
+<div class="section ">Get _file with specified _path in the directory.
+
+</div>
+<div class="section">The _file will be returned even if it does not exist -
+it will be created when writing into it.
+
+
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">path</td><td class="paramDoc">Path of the _file to get.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSNotFoundException</code> if the directory does not exist
+         or the _file is in a nonexistent subdirectory.
+
+         <code class="d_inlinecode">VFSInvalidPathException</code> if the _path is invalid.
+
+
+
+</div>
+<div class="section"><h2>Returns</h2>
+ File with specified _path.
+
+</div>
+</div></div><a class="anchor" id="dir"></a><div class="symbol"><div class="description"><pre><code>public <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> <a href="dgamevfs/vfs/VFSDir.html#dir">dir</a>(string path) @safe
+</code></pre>
+<div class="section ">Get a subdirectory with specified _path in the directory.
+
+</div>
+<div class="section">The subdirectory will be returned even if it does not exist -
+it can be created with the <code class="d_inlinecode">create()</code> method.
+
+
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">path</td><td class="paramDoc">Path of the subdirectory to get.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSNotFoundException</code> if this VFSDir does not exist
+         or the subdirectory is in a nonexistent subdirectory.
+
+         <code class="d_inlinecode">VFSInvalidPathException</code> if the _path is invalid.
+
+
+
+</div>
+<div class="section"><h2>Returns</h2>
+ Subdirectory with specified _path.
+
+</div>
+</div></div><a class="anchor" id="files"></a><div class="symbol"><div class="description"><pre><code>public <a href="dgamevfs/vfs.html#VFSFiles">VFSFiles</a> <a href="dgamevfs/vfs/VFSDir.html#files">files</a>(
+    Flag!"deep" deep = No.deep, 
+    string glob = null) @safe
+</code></pre>
+<div class="section ">Get a range of _files in the directory.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">deep</td><td class="paramDoc">If true, recursively get _files in subdirectories. Otherwise only get _files directly in this directory.</td></tr>
+<tr class="param"><td class="paramName">glob</td><td class="paramDoc">Glob pattern used to filter the results. If null (default), all _files will be returned. Otherwise only _files whose VFS paths within this directory match glob (case sensitive) will be returned. Some characters of _glob patterns have special meanings: For instance, <i>*.txt</i> matches any path ending with the <b>.txt</b> extension.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Returns</h2>
+ Range of the _files.
+
+
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSNotFoundException</code> if the directory does not exist.
+
+
+
+</div>
+<div class="section seealso">
+<h2>See Also:</h2>
+<div class="seealso-content">
+
+<a href="http://en.wikipedia.org/wiki/Glob_%28programming%29">Wikipedia: _glob (programming)</a>
+</div>
+</div>
+</div></div><a class="anchor" id="dirs"></a><div class="symbol"><div class="description"><pre><code>public <a href="dgamevfs/vfs.html#VFSDirs">VFSDirs</a> <a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a>(
+    Flag!"deep" deep = No.deep, 
+    string glob = null) @safe
+</code></pre>
+<div class="section ">Get a range of subdirectories.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">deep</td><td class="paramDoc">If true, recursively get all subdirectories. Otherwise just get subdirectories of this directory.</td></tr>
+<tr class="param"><td class="paramName">glob</td><td class="paramDoc">Glob pattern used to filter the results. If null (default), all subdirectories will be returned. Otherwise only subdirectories whose VFS paths within this directory match glob (case sensitive) will be returned. Some characters of _glob patterns have special meanings: For instance, <i>*.txt</i> matches any path ending with the <b>.txt</b> extension.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Returns</h2>
+ Range of the directories.
+
+
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSNotFoundException</code> if the directory does not exist.
+
+</div>
+</div></div><a class="anchor" id="create"></a><div class="symbol"><div class="description"><pre><code>public final <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSDir.html#create">create</a>() @safe
+</code></pre>
+<div class="section ">Create the directory if it does not exist (otherwise do nothing).
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if the directory could not be created.
+
+</div>
+</div></div><a class="anchor" id="remove"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSDir.html#remove">remove</a>() @system
+</code></pre>
+<div class="section ">Remove the directory if it exists (otherwise do nothing).
+
+</div>
+<div class="section">Removes recursively, together with any subdirectories and files.
+
+
+
+</div>
+<div class="section"><h2>Warning</h2>
+ This will make any references to subdirectories or
+         files in this directory invalid.
+
+
+
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if the directory could not be removed.
+
+</div>
+</div></div><a class="anchor" id="this"></a><div class="symbol"><div class="description"><pre><code>protected this(
+    <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> parent, 
+    string pathInParent) @safe pure nothrow @nogc
+</code></pre>
+<div class="section ">Constructor to initialize state common for <code class="d_inlinecode">VFSDir</code> implementations.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">parent</td><td class="paramDoc">Parent directory. If null, this directory has no _parent.</td></tr>
+<tr class="param"><td class="paramName">pathInParent</td><td class="paramDoc">Path of the directory within the _parent.
+</td></tr>
+</table>
+</div>
+</div></div><a class="anchor" id="dirsRange"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="dgamevfs/vfs.html#VFSDirs">VFSDirs</a> <a href="dgamevfs/vfs/VFSDir.html#dirsRange">dirsRange</a>(<a href="dgamevfs/vfs.html#VFSDirs">VFSDirs</a>.Items dirs) @safe
+</code></pre>
+<div class="section ">Construct a range from a set of directories.
+
+</div>
+</div></div><a class="anchor" id="filesRange"></a><div class="symbol"><div class="description"><pre><code>protected static <a href="dgamevfs/vfs.html#VFSFiles">VFSFiles</a> <a href="dgamevfs/vfs/VFSDir.html#filesRange">filesRange</a>(<a href="dgamevfs/vfs.html#VFSFiles">VFSFiles</a>.Items files) @safe
+</code></pre>
+<div class="section ">Construct a range from a set of _files.
+
+</div>
+</div></div><a class="anchor" id="composePath"></a><div class="symbol"><div class="description"><pre><code>protected string <a href="dgamevfs/vfs/VFSDir.html#composePath">composePath</a>(const <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> child) @safe const pure nothrow
+</code></pre>
+<div class="section ">Compose path for a _child directory. Used e.g. to allow <code class="d_inlinecode">StackDir</code> to set children's paths.
+
+</div>
+</div></div><a class="anchor" id="create_"></a><div class="symbol"><div class="description"><pre><code>protected <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSDir.html#create_">create_</a>() @trusted
+</code></pre>
+<div class="section ">Implementation of <code class="d_inlinecode">create()</code>. Caller contract guarantees that the directory is writable.
+
+</div>
+</div></div><a class="anchor" id="copyWithoutParent"></a><div class="symbol"><div class="description"><pre><code>protected <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> <a href="dgamevfs/vfs/VFSDir.html#copyWithoutParent">copyWithoutParent</a>() @safe
+</code></pre>
+<div class="section ">Return a copy of this VFSDir without a parent. Used for mounting.
+
+</div>
+</div></div><a class="anchor" id="getCopyWithoutParent"></a><div class="symbol"><div class="description"><pre><code>protected final <a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> <a href="dgamevfs/vfs/VFSDir.html#getCopyWithoutParent">getCopyWithoutParent</a>(<a href="dgamevfs/vfs/VFSDir.html">VFSDir</a> dir) @safe
+</code></pre>
+<div class="section ">Access for derived classes to call copyWithoutParent() of other instances.
+
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSDir.html#name">name</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Get the _name of this directory.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span>, <span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSDir.html#path">path</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Get full _path of this directory in the VFS.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSDir.html#writable">writable</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span>, <span class="attr-const">const</span>, <span class="attr-nogc">@nogc</span></span></span></td><td></td><td>Is it possible to write to the directory?</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-property">@property</span></span></span><a href="dgamevfs/vfs/VFSDir.html#exists">exists</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Does the directory exist?</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#file">file</a><span class="extrainfo"></span></td><td></td><td>Get _file with specified _path in the directory.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#dir">dir</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Get a subdirectory with specified _path in the directory.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#files">files</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Get a range of _files in the directory.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#dirs">dirs</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Get a range of subdirectories.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span></span></span><a href="dgamevfs/vfs/VFSDir.html#create">create</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Create the directory if it does not exist (otherwise do nothing).</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#remove">remove</a><span class="extrainfo"><span class="method-attribs"><span class="attr-system">@system</span></span></span></td><td></td><td>Remove the directory if it exists (otherwise do nothing).</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#this">this</a></td><td></td><td>Constructor to initialize state common for <code class="d_inlinecode">VFSDir</code> implementations.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSDir.html#dirsRange">dirsRange</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Construct a range from a set of directories.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-static">static</span></span></span><a href="dgamevfs/vfs/VFSDir.html#filesRange">filesRange</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Construct a range from a set of _files.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#composePath">composePath</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span>, <span class="attr-const">const</span>, <span class="attr-pure">pure</span>, <span class="attr-nothrow">nothrow</span></span></span></td><td></td><td>Compose path for a _child directory. Used e.g. to allow <code class="d_inlinecode">StackDir</code> to set children's paths.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#create_">create_</a><span class="extrainfo"><span class="method-attribs"><span class="attr-trusted">@trusted</span></span></span></td><td></td><td>Implementation of <code class="d_inlinecode">create()</code>. Caller contract guarantees that the directory is writable.</td></tr><tr><td><a href="dgamevfs/vfs/VFSDir.html#copyWithoutParent">copyWithoutParent</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Return a copy of this VFSDir without a parent. Used for mounting.</td></tr><tr><td><span class="extrainfo"><span class="attribs"><span class="attr-final">final</span></span></span><a href="dgamevfs/vfs/VFSDir.html#getCopyWithoutParent">getCopyWithoutParent</a><span class="extrainfo"><span class="method-attribs"><span class="attr-safe">@safe</span></span></span></td><td></td><td>Access for derived classes to call copyWithoutParent() of other instances.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>

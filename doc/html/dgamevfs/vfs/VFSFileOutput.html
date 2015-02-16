@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../../style.css"/>
+<script src="../../highlight.pack.js"></script>
+<title>VFSFileOutput</title>
+<base href="../../"/>
+<script src="search.js"></script>
+<script src="show_hide.js"></script>
+</head>
+<body>
+<div class="main">
+<div class="breadcrumbs">
+<table id="results"></table>
+<a href="index.html" class="home">⌂</a><input type="search" id="search" placeholder="Search" onkeyup="searchSubmit(this.value, event)"/>
+<small>dgamevfs.<a href=dgamevfs/vfs.html>vfs</a>.</small><span class="highlight">VFSFileOutput</span>
+</div>
+<div class="sidebar">
+<a href="dgamevfs/vfs.html#hide-toc" class="hide" id="hide-toc">&#171;</a>
+<a href="dgamevfs/vfs.html#show-toc" class="show" id="show-toc">&#187;</a>
+<div id="toc-id" class="toc">
+<ul><li><span class="package" onclick="show_hide('dgamevfs');">dgamevfs</span>
+<ul id="dgamevfs" style='display:block'>
+<li>dgamevfs.<a href="dgamevfs/_.html">_</a></li>
+<li>dgamevfs.<a href="dgamevfs/exceptions.html">exceptions</a></li>
+<li>dgamevfs.<a href="dgamevfs/fs.html">fs</a></li>
+<li>dgamevfs.<a href="dgamevfs/stack.html">stack</a></li>
+<li><span class=" selected">dgamevfs.<a href="dgamevfs/vfs.html">vfs</a></span>
+</li>
+</ul>
+</li>
+
+</ul>
+</div></div>
+<div class="content">
+<div class="aggregate-symbol"><div class="description"><pre><code>public struct VFSFileOutput
+</code></pre>
+<div class="section ">Provides basic file output functionality - seeking and writing.
+
+</div>
+<div class="section"><code class="d_inlinecode">VFSFileOutput</code> uses reference counting so that the file is closed
+when the last instance of <code class="d_inlinecode">VFSFileOutput</code> provided by the file is destroyed.
+
+
+
+</div>
+<div class="section"><h2>Examples</h2>
+
+<pre><code><a href="dgamevfs/vfs/VFSFile.html">VFSFile</a> file; //initialized somewhere before
+
+auto output = file.output;
+with(output)
+{
+    //Write to the file:
+    <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a>(cast(const void[])"The answer is ??");
+
+    //Change the last two characters in the file:
+    <a href="dgamevfs/vfs/VFSFileOutput.html#seek">seek</a>(-2, <a href="dgamevfs/vfs/Seek.html#End">Seek.End</a>);
+    <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a>(cast(const void[])"42");
+}</code></pre>
+
+<pre><code>//Appending:
+//When appending to the file, every <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a> writes to the end of file
+//regardless of any calls to <a href="dgamevfs/vfs/VFSFileOutput.html#seek">seek</a>(), and sets the file position
+//to end of file. This
+//(This is to stay in line with the C standard so we can use C functions directly)
+auto output = file.output(Yes.append);
+with(output)
+{
+    //Append to the file:
+    <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a>(cast(const void[])"The answer is ??");
+
+    //This will NOT change the last 2 characters: it will append anyway:
+    <a href="dgamevfs/vfs/VFSFileOutput.html#seek">seek</a>(-2, <a href="dgamevfs/vfs/Seek.html#End">Seek.End</a>);
+    <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a>(cast(const void[])"42");
+}</code></pre>
+
+</div>
+</div><a class="anchor" id="write"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a>(const <a href="http://dlang.org/type.html#basic-data-types">void</a>[] data)
+</code></pre>
+<div class="section ">Write data to file starting at current file position.
+
+</div>
+<div class="section note"><h2>Note:</h2>
+<div class="note-content">
+
+
+In append mode, any _write will _write to the end of file regardless
+of the current file position and file position will be set to the
+end of file.
+
+(This is to stay in line with the C standard so we can use C I/O functions directly)
+
+
+</div>
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">data</td><td class="paramDoc">Data to _write to the file.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> on error (e.g. after running out of disk space).
+
+</div>
+</div></div><a class="anchor" id="seek"></a><div class="symbol"><div class="description"><pre><code>public <a href="http://dlang.org/type.html#basic-data-types">void</a> <a href="dgamevfs/vfs/VFSFileOutput.html#seek">seek</a>(
+    <a href="http://dlang.org/type.html#basic-data-types">long</a> offset, 
+    <a href="dgamevfs/vfs/Seek.html">Seek</a> origin)
+</code></pre>
+<div class="section ">Set file position to offset bytes from specified origin.
+
+</div>
+<div class="section"><h2>Parameters</h2>
+<table class="params">
+<tr class="param"><td class="paramName">offset</td><td class="paramDoc">Number of bytes to set file position relative to origin.</td></tr>
+<tr class="param"><td class="paramName">origin</td><td class="paramDoc">Position to which offset is added.</td></tr>
+</table>
+</div>
+<div class="section"><h2>Throws</h2>
+  <code class="d_inlinecode">VFSIOException</code> if trying to _seek before the beginning or behind
+         the end of file, or on a different error.
+
+</div>
+</div></div><div class="section members"><h2>Functions</h2><table><tr><td><a href="dgamevfs/vfs/VFSFileOutput.html#write">write</a><span class="extrainfo"></span></td><td></td><td>Write data to file starting at current file position.</td></tr><tr><td><a href="dgamevfs/vfs/VFSFileOutput.html#seek">seek</a><span class="extrainfo"></span></td><td></td><td>Set file position to offset bytes from specified origin.</td></tr></table>
+</div>
+</div><script>hljs.initHighlightingOnLoad();</script>
+
+</div>
+<footer>
+Generated with <a href="https://github.com/kiith-sa/harbored-mod">harbored-mod</a>
+</footer>
+</div>
+</body>
+</html>
