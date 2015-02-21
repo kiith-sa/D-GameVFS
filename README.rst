@@ -28,7 +28,7 @@ Features
 --------
 
 * File system independent, easy to use API for file/directory manipulation.
-* Detailed `API documentation <http://ddocs.org/dgamevfs/latest/index.html>`_ 
+* Detailed `API documentation <http://ddocs.org/dgamevfs/~master/index.html>`_ 
   (at `DDocs.org <http://ddocs.org>`_) with code examples.
 * No external dependencies.
 * Seamless access to multiple directories as if they were a single directory.
